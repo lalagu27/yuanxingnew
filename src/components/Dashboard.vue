@@ -3,7 +3,7 @@
     <div class="background-grid"></div>
     <div class="header">
       <div class="header-center">
-        <div class="header-title">数据可视化指挥中心</div>
+        <div class="header-title">指标展示首页</div>
         <div class="header-subtitle">DATA VISUALIZATION COMMAND CENTER</div>
       </div>
       <div class="header-time">{{ currentTime }}</div>
@@ -15,7 +15,7 @@
         <!-- Personal Info -->
         <div class="tech-box user-info-box">
            <div class="tech-box-title">
-              <span class="icon">➜</span> 指挥官信息
+              <span class="icon">➜</span> 人员信息
            </div>
            <div class="user-content">
               <div class="avatar-section">
@@ -24,9 +24,8 @@
                         <i class="el-icon-user"></i>
                      </div>
                   </div>
-                  <div class="status-badge">ONLINE</div>
               </div>
-              <div class="user-details-list">
+              <div class="user-details-grid">
                   <div class="detail-row">
                       <span class="label">姓名:</span>
                       <span class="value">张三丰</span>
@@ -44,11 +43,6 @@
                       <span class="value">勘探开发指挥中心</span>
                   </div>
               </div>
-           </div>
-           <div class="action-grid">
-               <div class="action-item">公告通知</div>
-               <div class="action-item active">重点工作</div>
-               <div class="action-item">待办事项</div>
            </div>
         </div>
 
@@ -134,9 +128,9 @@
                     <div class="cell-header-row">
                         <div class="cell-title">增储上产</div>
                         <div class="cell-tabs">
-                            <span class="c-tab active">年</span>
+                            <span class="c-tab">年</span>
                             <span class="c-tab">月</span>
-                            <span class="c-tab">日</span>
+                            <span class="c-tab active">日</span>
                         </div>
                     </div>
                     <div ref="chart1" class="cell-chart"></div>
@@ -145,9 +139,9 @@
                     <div class="cell-header-row">
                         <div class="cell-title">成本效益</div>
                         <div class="cell-tabs">
-                            <span class="c-tab active">年</span>
+                            <span class="c-tab">年</span>
                             <span class="c-tab">月</span>
-                            <span class="c-tab">日</span>
+                            <span class="c-tab active">日</span>
                         </div>
                     </div>
                     <div ref="chart2" class="cell-chart"></div>
@@ -156,9 +150,9 @@
                     <div class="cell-header-row">
                         <div class="cell-title">战新产业</div>
                         <div class="cell-tabs">
-                            <span class="c-tab active">年</span>
+                            <span class="c-tab">年</span>
                             <span class="c-tab">月</span>
-                            <span class="c-tab">日</span>
+                            <span class="c-tab active">日</span>
                         </div>
                     </div>
                     <div ref="chart3" class="cell-chart"></div>
@@ -167,9 +161,9 @@
                     <div class="cell-header-row">
                         <div class="cell-title">关键绩效</div>
                         <div class="cell-tabs">
-                            <span class="c-tab active">年</span>
+                            <span class="c-tab">年</span>
                             <span class="c-tab">月</span>
-                            <span class="c-tab">日</span>
+                            <span class="c-tab active">日</span>
                         </div>
                     </div>
                     <div ref="chart4" class="cell-chart"></div>
@@ -233,10 +227,10 @@ export default {
       currentTime: '',
       topCards: [
         { title: '今日提醒', badge: 'W', items: ['9:30 勘探会议', '14:00 表彰大会'] },
+        { title: '下周事项', badge: 'S', items: ['周一安全培训', '周三项目评审'] },
         { title: '待审批', badge: 'W', items: ['立项审批', '采购审批'] },
         { title: '差旅计划', badge: 'W', items: ['16:00 航班飞北京'] },
         { title: '党务活动', badge: 'M', items: ['本月党小组会议'] },
-        { title: '系统通知', badge: 'S', items: ['服务器维护公告'] },
       ]
     }
   },
@@ -287,16 +281,42 @@ export default {
       // 1. Oil & Gas
       const lc1 = echarts.init(this.$refs.leftChart1);
       lc1.setOption({
-         tooltip: { trigger: 'axis' },
-         grid: { top: 10, bottom: 0, left: 0, right: 10, containLabel: true },
+         tooltip: {
+             trigger: 'axis',
+             formatter: function(params) {
+                 let result = params[0].axisValue + '<br/>';
+                 params.forEach(item => {
+                     const unit = item.axisValue === '天然气' ? '亿方' : '万吨';
+                     result += item.marker + ' ' + item.value + unit + '<br/>';
+                 });
+                 return result;
+             }
+         },
+         grid: { top: 10, bottom: 0, left: 0, right: 50, containLabel: true },
          xAxis: { type: 'value', show: false },
-         yAxis: { type: 'category', data: ['天然气', '石油'], axisLine: {show:false}, axisTick:{show:false}, axisLabel:{color:'#fff'} },
+         yAxis: {
+             type: 'category',
+             data: ['天然气 (亿方)', '石油 (万吨)'],
+             axisLine: {show:false},
+             axisTick:{show:false},
+             axisLabel:{color:'#fff', fontSize: 11}
+         },
          series: [{
              type: 'bar',
              data: [78, 55],
              barWidth: 8,
              itemStyle: { borderRadius: 4, color: getLinearGradient('#00d4ff', '#0066cc') },
-             label: { show: true, position: 'right', color: '#fff' },
+             label: {
+                 show: true,
+                 position: 'right',
+                 color: '#00d4ff',
+                 fontSize: 13,
+                 fontWeight: 'bold',
+                 formatter: function(params) {
+                     const unit = params.dataIndex === 0 ? '亿方' : '万吨';
+                     return params.value + unit;
+                 }
+             },
              showBackground: true,
              backgroundStyle: { color: 'rgba(30, 90, 142, 0.15)', borderRadius: 4 }
          }]
@@ -305,7 +325,7 @@ export default {
       // 2. Net Production (Pictorial)
       const lc2 = echarts.init(this.$refs.leftChart2);
       lc2.setOption({
-          grid: { top: 0, bottom: 0, left: 0, right: 0, containLabel: true },
+          grid: { top: 15, bottom: 15, left: 10, right: 100, containLabel: false },
           xAxis: { show: false, max: 6000 },
           yAxis: { type: 'category', data: ['净产量'], show: false },
           series: [
@@ -318,7 +338,18 @@ export default {
                   symbolSize: [6, 15],
                   data: [4567],
                   itemStyle: { color: '#00d4ff' },
-                  label: { show: true, position: 'right', offset: [10, 0], color: '#fff', fontSize: 14, formatter: '{c}' },
+                  label: {
+                      show: true,
+                      position: 'right',
+                      offset: [10, 0],
+                      color: '#00d4ff',
+                      fontSize: 16,
+                      fontWeight: 'bold',
+                      formatter: '{c} 万吨',
+                      fontFamily: 'Consolas, monospace',
+                      textShadowColor: 'rgba(0, 212, 255, 0.8)',
+                      textShadowBlur: 6
+                  },
                   z: 10
               },
               {
@@ -338,15 +369,57 @@ export default {
       // 3. Investment (Donut)
       const lc3 = echarts.init(this.$refs.leftChart3);
       lc3.setOption({
-          tooltip: { trigger: 'item' },
-          legend: { top: 'center', right: 0, orient: 'vertical', textStyle: { color: '#fff', fontSize: 9 }, itemWidth: 8, itemHeight: 8 },
+          tooltip: {
+              trigger: 'item',
+              formatter: '{b}: {c}亿元 ({d}%)'
+          },
+          legend: {
+              top: 'center',
+              right: 0,
+              orient: 'vertical',
+              textStyle: { color: '#fff', fontSize: 9 },
+              itemWidth: 8,
+              itemHeight: 8,
+              formatter: function(name) {
+                  const data = [
+                      { name: '勘探', value: 3.45 },
+                      { name: '开发', value: 6.78 },
+                      { name: '生产', value: 0.89 },
+                      { name: '其它', value: 1.22 }
+                  ];
+                  const item = data.find(d => d.name === name);
+                  return item ? name + ' ' + item.value + '亿' : name;
+              }
+          },
           series: [{
               type: 'pie',
               radius: ['50%', '70%'],
               center: ['30%', '50%'],
               avoidLabelOverlap: false,
-              label: { show: false },
-              itemStyle: { borderColor: '#000', borderWidth: 2 },
+              label: {
+                  show: false
+              },
+              labelLine: {
+                  show: false
+              },
+              itemStyle: {
+                  borderColor: '#0a1929',
+                  borderWidth: 2
+              },
+              emphasis: {
+                  label: {
+                      show: true,
+                      fontSize: 11,
+                      fontWeight: 'bold',
+                      color: '#fff',
+                      formatter: '{c}亿'
+                  },
+                  itemStyle: {
+                      shadowBlur: 10,
+                      shadowOffsetX: 0,
+                      shadowColor: 'rgba(0, 212, 255, 0.5)'
+                  }
+              },
               data: [
                   { value: 3.45, name: '勘探', itemStyle: {color: '#00d4ff'} },
                   { value: 6.78, name: '开发', itemStyle: {color: '#0088ff'} },
@@ -360,9 +433,20 @@ export default {
       const lc4 = echarts.init(this.$refs.leftChart4);
       lc4.setOption({
           grid: commonGrid,
-          tooltip: { trigger: 'axis' },
+          tooltip: {
+              trigger: 'axis',
+              formatter: '{b}: {c}日'
+          },
           xAxis: { ...commonXAxis, type: 'category', data: ['探井', '开发', '调整'] },
-          yAxis: { ...commonYAxis, type: 'value' },
+          yAxis: {
+              ...commonYAxis,
+              type: 'value',
+              axisLabel: {
+                  color: labelColor,
+                  fontSize: 9,
+                  formatter: '{value}日'
+              }
+          },
           series: [{
               type: 'line',
               smooth: true,
@@ -371,26 +455,82 @@ export default {
               symbolSize: 6,
               itemStyle: { color: '#00d4ff', borderColor: '#fff' },
               lineStyle: { width: 3, color: '#00d4ff' },
-              areaStyle: { color: new echarts.graphic.LinearGradient(0,0,0,1, [{offset:0, color: 'rgba(0, 212, 255, 0.5)'}, {offset:1, color: 'rgba(0, 212, 255, 0)'}]) }
+              areaStyle: { color: new echarts.graphic.LinearGradient(0,0,0,1, [{offset:0, color: 'rgba(0, 212, 255, 0.5)'}, {offset:1, color: 'rgba(0, 212, 255, 0)'}]) },
+              label: {
+                  show: true,
+                  position: 'top',
+                  color: '#00d4ff',
+                  fontSize: 10,
+                  formatter: '{c}日'
+              }
           }]
       });
 
       // 5. Expenses (Rose)
       const lc5 = echarts.init(this.$refs.leftChart5);
       lc5.setOption({
-          tooltip: { trigger: 'item' },
+          tooltip: {
+              trigger: 'item',
+              formatter: '{b}: {c}亿元 ({d}%)'
+          },
+          legend: {
+              bottom: 0,
+              left: 'center',
+              orient: 'horizontal',
+              textStyle: { color: '#6ea8d3', fontSize: 7 },
+              itemWidth: 6,
+              itemHeight: 6,
+              itemGap: 5,
+              formatter: function(name) {
+                  const shortNames = {
+                      '行政管理费': '行政',
+                      '分公司行政': '分公司',
+                      '研究院行政': '研究院',
+                      '深海工程中心': '深海',
+                      '销售费用': '销售',
+                      '综合科研': '科研'
+                  };
+                  return shortNames[name] || name;
+              }
+          },
           series: [{
               type: 'pie',
               roseType: 'area',
-              radius: [10, 40],
-              center: ['50%', '50%'],
-              itemStyle: { borderRadius: 3 },
+              radius: [12, 50],
+              center: ['50%', '42%'],
+              itemStyle: {
+                  borderRadius: 3,
+                  borderColor: '#0a1929',
+                  borderWidth: 2
+              },
               data: [
-                  { value: 40, name: '管理', itemStyle: {color:'#00d4ff'} },
-                  { value: 30, name: '销售', itemStyle: {color:'#0088ff'} },
-                  { value: 20, name: '科研', itemStyle: {color:'#ff9800'} }
+                  { value: 4.32, name: '行政管理费', itemStyle: {color:'#00d4ff'} },
+                  { value: 2.1, name: '分公司行政', itemStyle: {color:'#0088ff'} },
+                  { value: 1.8, name: '研究院行政', itemStyle: {color:'#00aaff'} },
+                  { value: 0.42, name: '深海工程中心', itemStyle: {color:'#40c4ff'} },
+                  { value: 2.22, name: '销售费用', itemStyle: {color:'#ff9800'} },
+                  { value: 1.11, name: '综合科研', itemStyle: {color:'#ffb74d'} }
               ],
-              label: { color: '#fff', fontSize: 9 }
+              label: {
+                  show: false
+              },
+              labelLine: {
+                  show: false
+              },
+              emphasis: {
+                  label: {
+                      show: true,
+                      fontSize: 10,
+                      fontWeight: 'bold',
+                      color: '#fff',
+                      formatter: '{b}\n{c}亿'
+                  },
+                  itemStyle: {
+                      shadowBlur: 10,
+                      shadowOffsetX: 0,
+                      shadowColor: 'rgba(0, 212, 255, 0.5)'
+                  }
+              }
           }]
       });
 
@@ -822,25 +962,25 @@ export default {
 .tech-box-title .icon { margin-right: 6px; font-size: 10px; color: #00d4ff; }
 
 /* User Box */
-.user-info-box { height: 180px; display: flex; flex-direction: column; }
-.user-content { display: flex; align-items: center; gap: 15px; flex: 1; padding: 0 5px; }
+.user-info-box { height: 85px; display: flex; flex-direction: column; }
+.user-content { display: flex; align-items: center; gap: 10px; flex: 1; padding: 0 5px; }
 
 .avatar-section {
-    display: flex; flex-direction: column; align-items: center; gap: 5px;
+    display: flex; flex-direction: column; align-items: center;
 }
 .avatar-ring {
-    width: 60px; height: 60px; border-radius: 50%;
+    width: 42px; height: 42px; border-radius: 50%;
     border: 2px solid #00d4ff;
     display: flex; align-items: center; justify-content: center;
     animation: spin 10s linear infinite;
-    box-shadow: 0 0 15px rgba(0, 212, 255, 0.5);
+    box-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
 }
 .avatar-inner {
-    width: 46px; height: 46px;
+    width: 32px; height: 32px;
     background: linear-gradient(135deg, #00d4ff, #0088ff);
     border-radius: 50%;
     display: flex; align-items: center; justify-content: center;
-    color: #000; font-size: 24px;
+    color: #000; font-size: 16px;
     animation: spin 10s linear infinite reverse;
 }
 .status-badge {
@@ -849,16 +989,24 @@ export default {
     font-size: 9px; padding: 0 5px; border-radius: 2px;
 }
 
+.user-details-grid {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 5px 10px;
+    align-content: center;
+}
 .user-details-list {
-    flex: 1; display: flex; flex-direction: column; gap: 5px;
+    flex: 1; display: flex; flex-direction: column; gap: 1px; justify-content: center;
 }
 .detail-row {
-    display: flex; align-items: center; font-size: 11px;
+    display: flex; align-items: center; font-size: 10px;
     border-bottom: 1px dashed rgba(30, 90, 142, 0.3);
-    padding-bottom: 3px;
+    padding-bottom: 2px;
 }
-.detail-row .label { color: #6ea8d3; width: 35px; text-align: right; margin-right: 8px; }
-.detail-row .value { color: #fff; font-weight: bold; }
+.detail-row .label { color: #6ea8d3; width: 30px; text-align: right; margin-right: 6px; font-size: 10px; }
+.detail-row .value { color: #fff; font-weight: bold; font-size: 10px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .tech-font { font-family: 'Consolas', monospace; color: #00d4ff !important; }
 
 .action-grid { display: flex; gap: 5px; margin-top: 5px; }
