@@ -18,20 +18,37 @@
               <span class="icon">➜</span> 指挥官信息
            </div>
            <div class="user-content">
-              <div class="avatar-ring">
-                 <div class="avatar-inner">
-                    <i class="el-icon-user"></i>
-                 </div>
-              </div>
-              <div class="user-text">
-                  <h3>Chief Commander</h3>
+              <div class="avatar-section">
+                  <div class="avatar-ring">
+                     <div class="avatar-inner">
+                        <i class="el-icon-user"></i>
+                     </div>
+                  </div>
                   <div class="status-badge">ONLINE</div>
+              </div>
+              <div class="user-details-list">
+                  <div class="detail-row">
+                      <span class="label">姓名:</span>
+                      <span class="value">张三丰</span>
+                  </div>
+                  <div class="detail-row">
+                      <span class="label">职务:</span>
+                      <span class="value">高级指挥长</span>
+                  </div>
+                  <div class="detail-row">
+                      <span class="label">工号:</span>
+                      <span class="value tech-font">NO.9527</span>
+                  </div>
+                  <div class="detail-row">
+                      <span class="label">部门:</span>
+                      <span class="value">勘探开发指挥中心</span>
+                  </div>
               </div>
            </div>
            <div class="action-grid">
-               <div class="action-item">公告</div>
-               <div class="action-item active">工作</div>
-               <div class="action-item">待办</div>
+               <div class="action-item">公告通知</div>
+               <div class="action-item active">重点工作</div>
+               <div class="action-item">待办事项</div>
            </div>
         </div>
 
@@ -358,60 +375,244 @@ export default {
           legend: { top: 0, right: 0, textStyle: { color: '#fff', fontSize: 9 }, itemWidth: 10, itemHeight: 4 }
       };
 
-      // C1: Cylinder Bars
+      // C1: Increase Reserves & Production (3 Series Cylinder)
       const c1 = echarts.init(this.$refs.chart1);
       c1.setOption({
           ...chartProps,
-          legend: { show: true, textStyle: {color: '#fff'} },
-          xAxis: { type: 'category', data: ['储量', '原油', '天然气'], axisLabel: {color:'#fff'} },
+          legend: { show: true, textStyle: {color: '#fff', fontSize: 8}, top: 0, right: 0, itemWidth: 8, itemHeight: 8 },
+          xAxis: {
+              type: 'category',
+              data: ['新增储量', '原油产量', '天然气'],
+              axisLabel: {color:'#fff', fontSize: 9, interval: 0}
+          },
+          grid: { top: 35, bottom: 5, left: 5, right: 5, containLabel: true },
           series: [
-              { name: '基本', type: 'bar', data: [68, 55, 88], itemStyle: { color: '#4facfe' } },
-              { name: '挑战', type: 'bar', data: [88, 76, 114], itemStyle: { color: '#00f2fe' } },
+              // --- Series 1: Basic (Yellow) ---
               {
+                  name: '基本目标',
+                  type: 'bar',
+                  barWidth: 10,
+                  data: [68, 55, 88],
+                  itemStyle: { color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{offset: 0, color: '#ffc107'}, {offset: 1, color: '#ff9800'}]) }
+              },
+              {
+                  name: '基本目标',
                   type: 'pictorialBar',
                   symbol: 'circle',
                   symbolPosition: 'end',
-                  symbolSize: [15, 6],
-                  symbolOffset: [0, -4],
+                  symbolSize: [10, 5],
+                  symbolOffset: ['-110%', -3], // Align with left bar
                   z: 10,
-                  data: [88, 76, 114],
-                  itemStyle: { color: '#fff' }
+                  data: [68, 55, 88],
+                  itemStyle: { color: '#ffc107' },
+                  tooltip: { show: false }
+              },
+
+              // --- Series 2: Challenge II (Red) ---
+              {
+                  name: '挑战二档',
+                  type: 'bar',
+                  barWidth: 10,
+                  data: [78, 66, 99],
+                  itemStyle: { color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{offset: 0, color: '#ff5252'}, {offset: 1, color: '#d32f2f'}]) }
+              },
+              {
+                  name: '挑战二档',
+                  type: 'pictorialBar',
+                  symbol: 'circle',
+                  symbolPosition: 'end',
+                  symbolSize: [10, 5],
+                  symbolOffset: [0, -3], // Align with center bar
+                  z: 10,
+                  data: [78, 66, 99],
+                  itemStyle: { color: '#ff5252' },
+                  tooltip: { show: false }
+              },
+
+              // --- Series 3: Challenge I (Green) ---
+              {
+                  name: '挑战一档',
+                  type: 'bar',
+                  barWidth: 10,
+                  data: [112, 76, 114.8],
+                  itemStyle: { color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{offset: 0, color: '#69f0ae'}, {offset: 1, color: '#00c853'}]) }
+              },
+              {
+                  name: '挑战一档',
+                  type: 'pictorialBar',
+                  symbol: 'circle',
+                  symbolPosition: 'end',
+                  symbolSize: [10, 5],
+                  symbolOffset: ['110%', -3], // Align with right bar
+                  z: 10,
+                  data: [112, 76, 114.8],
+                  itemStyle: { color: '#69f0ae' },
+                  tooltip: { show: false },
+                  label: { show: true, position: 'top', color: '#fff', fontSize: 9, offset: [0, -2] }
               }
           ]
       });
 
-      // C2: Line + Bar
+      // C2: Cost Efficiency (Digital Block/Meter Style)
       const c2 = echarts.init(this.$refs.chart2);
       c2.setOption({
           ...chartProps,
-          tooltip: { trigger: 'axis' },
-          xAxis: { type: 'category', data: ['利润', '五项'], axisLabel: {color:'#fff'} },
+          legend: { show: true, textStyle: {color: '#fff', fontSize: 8}, top: 0, right: 0, itemWidth: 8, itemHeight: 8 },
+          xAxis: {
+              type: 'category',
+              data: ['利润总额', '桶油五项'],
+              axisLabel: {color:'#fff', fontSize: 10},
+              axisLine: { show: true, lineStyle: { color: 'rgba(0, 229, 255, 0.3)' } }
+          },
+          grid: { top: 35, bottom: 5, left: 5, right: 5, containLabel: true },
           series: [
-              { name: 'A', type: 'bar', data: [45, 20], barWidth: 15, itemStyle: { color: getLinearGradient('#fa709a', '#fee140') } },
-              { name: 'B', type: 'bar', data: [56, 19], barWidth: 15, itemStyle: { color: getLinearGradient('#96e6a1', '#d4fc79') } },
-              { name: 'Trend', type: 'line', data: [100, 50], yAxisIndex: 0, lineStyle: { type: 'dashed' } }
+              // --- Series 1: Basic (Pink Blocks) ---
+              {
+                  name: '基本目标',
+                  type: 'pictorialBar',
+                  symbol: 'roundRect',
+                  symbolRepeat: 'fixed',
+                  symbolMargin: 2,
+                  symbolSize: [14, 4],
+                  symbolClip: true,
+                  symbolOffset: ['-140%', 0],
+                  data: [45, 20.45],
+                  itemStyle: { color: '#ec008c' },
+                  label: { show: false }
+              },
+              // Series 1 Background (faint track)
+              {
+                  name: '基本目标',
+                  type: 'pictorialBar',
+                  symbol: 'roundRect',
+                  symbolRepeat: 'fixed',
+                  symbolMargin: 2,
+                  symbolSize: [14, 4],
+                  symbolOffset: ['-140%', 0],
+                  data: [120, 30], // Max background
+                  itemStyle: { color: 'rgba(236, 0, 140, 0.1)' },
+                  z: -1,
+                  animation: false,
+                  tooltip: { show: false },
+                  hoverAnimation: false
+              },
+
+              // --- Series 2: Challenge II (Orange Blocks) ---
+              {
+                  name: '挑战二档',
+                  type: 'pictorialBar',
+                  symbol: 'roundRect',
+                  symbolRepeat: 'fixed',
+                  symbolMargin: 2,
+                  symbolSize: [14, 4],
+                  symbolClip: true,
+                  symbolOffset: [0, 0],
+                  data: [56, 19.14],
+                  itemStyle: { color: '#ff9966' },
+                  label: { show: false }
+              },
+              // Background
+              {
+                  name: '挑战二档',
+                  type: 'pictorialBar',
+                  symbol: 'roundRect',
+                  symbolRepeat: 'fixed',
+                  symbolMargin: 2,
+                  symbolSize: [14, 4],
+                  symbolOffset: [0, 0],
+                  data: [120, 30],
+                  itemStyle: { color: 'rgba(255, 153, 102, 0.1)' },
+                  z: -1,
+                  animation: false,
+                  tooltip: { show: false },
+                  hoverAnimation: false
+              },
+
+              // --- Series 3: Challenge I (Blue Blocks) ---
+              {
+                  name: '挑战一档',
+                  type: 'pictorialBar',
+                  symbol: 'roundRect',
+                  symbolRepeat: 'fixed',
+                  symbolMargin: 2,
+                  symbolSize: [14, 4],
+                  symbolClip: true,
+                  symbolOffset: ['140%', 0],
+                  data: [112.5, 18.5],
+                  itemStyle: { color: '#00c6fb' },
+                  label: { show: true, position: 'top', color: '#fff', fontSize: 9, offset: [0, -2] }
+              },
+              // Background
+              {
+                  name: '挑战一档',
+                  type: 'pictorialBar',
+                  symbol: 'roundRect',
+                  symbolRepeat: 'fixed',
+                  symbolMargin: 2,
+                  symbolSize: [14, 4],
+                  symbolOffset: ['140%', 0],
+                  data: [120, 30],
+                  itemStyle: { color: 'rgba(0, 198, 251, 0.1)' },
+                  z: -1,
+                  animation: false,
+                  tooltip: { show: false },
+                  hoverAnimation: false
+              }
           ]
       });
 
-      // C3: Pictorial
+      // C3: Emerging Industries (3 Series Mountain Peaks)
       const c3 = echarts.init(this.$refs.chart3);
       c3.setOption({
           ...chartProps,
-          xAxis: { data: ['投资', '营收'], axisLabel: {color:'#fff'} },
-          series: [{
-              type: 'pictorialBar',
-              symbol: 'path://M0,10 L10,10 C5.5,10 5.5,5 5,0 C4.5,5 4.5,10 0,10 z',
-              itemStyle: { opacity: 0.5, color: '#a18cd1' },
-              data: [12, 35],
-              z: 5
-          }, {
-               type: 'pictorialBar',
-               symbol: 'path://M0,10 L10,10 C5.5,10 5.5,5 5,0 C4.5,5 4.5,10 0,10 z',
-               itemStyle: { color: '#fbc2eb' },
-               data: [30, 75],
-               z: 10,
-               label: { show: true, position: 'top', color: '#fff' }
-          }]
+          legend: { show: true, textStyle: {color: '#fff', fontSize: 8}, top: 0, right: 0, itemWidth: 8, itemHeight: 8 },
+          xAxis: {
+              data: ['投资完成', '营业收入'],
+              axisLabel: {color:'#fff', fontSize: 10},
+              axisLine: { show: true, lineStyle: { color: 'rgba(0, 229, 255, 0.3)' } },
+              axisTick: { show: false }
+          },
+          grid: { top: 35, bottom: 5, left: 5, right: 5, containLabel: true },
+          series: [
+              // --- Series 1: Basic (Red) ---
+              {
+                  name: '基本目标',
+                  type: 'pictorialBar',
+                  symbol: 'path://M0,10 L5,0 L10,10 z',
+                  itemStyle: { color: 'rgba(255, 82, 82, 0.8)' },
+                  data: [12, 35],
+                  symbolSize: ['50%', '100%'],
+                  symbolOffset: ['-60%', 0],
+                  z: 10,
+                  label: { show: true, position: 'top', fontSize: 10, fontWeight: 'bold', color: '#fff', offset: [0, -5] }
+              },
+
+              // --- Series 2: Challenge II (Yellow/Orange) ---
+              // Note: Image visually emphasizes 2 main peaks, but legend implies 3. Adding middle layer.
+              {
+                  name: '挑战二档',
+                  type: 'pictorialBar',
+                  symbol: 'path://M0,10 L5,0 L10,10 z',
+                  itemStyle: { color: 'rgba(255, 179, 0, 0.7)' },
+                  data: [18, 55], // Estimated intermediate values
+                  symbolSize: ['50%', '100%'],
+                  symbolOffset: ['0%', 0],
+                  z: 5
+              },
+
+              // --- Series 3: Challenge I (Cyan) ---
+              {
+                  name: '挑战一档',
+                  type: 'pictorialBar',
+                  symbol: 'path://M0,10 L5,0 L10,10 z',
+                  itemStyle: { color: 'rgba(24, 255, 255, 0.8)' },
+                  data: [30, 75],
+                  symbolSize: ['60%', '100%'],
+                  symbolOffset: ['50%', 0],
+                  z: 8, // Behind Basic but overlapping
+                  label: { show: true, position: 'top', fontSize: 10, fontWeight: 'bold', color: '#18ffff', formatter: '{c}亿元', offset: [0, -5] }
+              }
+          ]
       });
 
        // C4: Radar
@@ -593,8 +794,12 @@ export default {
 .tech-box-title .icon { margin-right: 5px; font-size: 10px; }
 
 /* User Box */
-.user-info-box { height: 160px; display: flex; flex-direction: column; }
-.user-content { display: flex; align-items: center; gap: 15px; flex: 1; }
+.user-info-box { height: 180px; display: flex; flex-direction: column; }
+.user-content { display: flex; align-items: center; gap: 15px; flex: 1; padding: 0 5px; }
+
+.avatar-section {
+    display: flex; flex-direction: column; align-items: center; gap: 5px;
+}
 .avatar-ring {
     width: 60px; height: 60px; border-radius: 50%;
     border: 2px dashed #00e5ff;
@@ -607,12 +812,24 @@ export default {
     color: #000; font-size: 24px;
     animation: spin 10s linear infinite reverse;
 }
-.user-text h3 { margin: 0; font-family: 'Orbitron'; font-size: 14px; color: #fff; }
 .status-badge {
     display: inline-block; background: rgba(0, 255, 0, 0.2);
     color: #0f0; border: 1px solid #0f0;
-    font-size: 10px; padding: 0 5px; margin-top: 5px;
+    font-size: 9px; padding: 0 5px; border-radius: 2px;
 }
+
+.user-details-list {
+    flex: 1; display: flex; flex-direction: column; gap: 5px;
+}
+.detail-row {
+    display: flex; align-items: center; font-size: 11px;
+    border-bottom: 1px dashed rgba(0, 229, 255, 0.1);
+    padding-bottom: 2px;
+}
+.detail-row .label { color: #8facba; width: 35px; text-align: right; margin-right: 8px; }
+.detail-row .value { color: #fff; font-weight: bold; }
+.tech-font { font-family: monospace; color: #00e5ff !important; }
+
 .action-grid { display: flex; gap: 5px; margin-top: 5px; }
 .action-item {
     flex: 1; text-align: center; background: rgba(255,255,255,0.05);
