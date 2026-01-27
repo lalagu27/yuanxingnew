@@ -737,35 +737,46 @@ export default {
               }
           },
           series: [
+              // 基本目标 - 平滑折线
               {
                   name: '基本目标',
                   type: 'line',
                   smooth: true,
                   data: baseData,
                   symbol: 'circle',
-                  symbolSize: 4,
-                  itemStyle: { color: '#ffc107', borderColor: '#fff', borderWidth: 1 },
-                  lineStyle: { width: 2, color: '#ffc107' }
+                  symbolSize: 6,
+                  itemStyle: { color: '#ffc107', borderColor: '#fff', borderWidth: 2 },
+                  lineStyle: { width: 3, color: '#ffc107' }
               },
+              // 挑战二档 - 平滑折线
               {
                   name: '挑战二档',
                   type: 'line',
                   smooth: true,
                   data: challenge2Data,
                   symbol: 'circle',
-                  symbolSize: 4,
-                  itemStyle: { color: '#ff5252', borderColor: '#fff', borderWidth: 1 },
-                  lineStyle: { width: 2, color: '#ff5252' }
+                  symbolSize: 6,
+                  itemStyle: { color: '#ff5252', borderColor: '#fff', borderWidth: 2 },
+                  lineStyle: { width: 3, color: '#ff5252' }
               },
+              // 挑战一档 - 平滑折线
               {
                   name: '挑战一档',
                   type: 'line',
                   smooth: true,
                   data: challenge1Data,
                   symbol: 'circle',
-                  symbolSize: 4,
-                  itemStyle: { color: '#69f0ae', borderColor: '#fff', borderWidth: 1 },
-                  lineStyle: { width: 2, color: '#69f0ae' }
+                  symbolSize: 6,
+                  itemStyle: { color: '#69f0ae', borderColor: '#fff', borderWidth: 2 },
+                  lineStyle: { width: 3, color: '#69f0ae' },
+                  label: {
+                      show: true,
+                      position: 'top',
+                      color: '#69f0ae',
+                      fontSize: 9,
+                      formatter: '{c}',
+                      fontWeight: 'bold'
+                  }
               }
           ]
       });
@@ -847,35 +858,60 @@ export default {
               }
           },
           series: [
+              // 基本目标 - 堆叠柱状图
               {
                   name: '基本目标',
-                  type: 'line',
-                  smooth: true,
+                  type: 'bar',
+                  stack: 'total',
+                  barWidth: 18,
                   data: baseData,
-                  symbol: 'circle',
-                  symbolSize: 4,
-                  itemStyle: { color: '#ffc107', borderColor: '#fff', borderWidth: 1 },
-                  lineStyle: { width: 2, color: '#ffc107' }
+                  itemStyle: {
+                      color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                          { offset: 0, color: 'rgba(255, 193, 7, 0.9)' },
+                          { offset: 1, color: 'rgba(255, 152, 0, 0.7)' }
+                      ]),
+                      borderRadius: [0, 0, 0, 0]
+                  }
               },
+              // 挑战二档 - 堆叠柱状图
               {
                   name: '挑战二档',
-                  type: 'line',
-                  smooth: true,
-                  data: challenge2Data,
-                  symbol: 'circle',
-                  symbolSize: 4,
-                  itemStyle: { color: '#ff5252', borderColor: '#fff', borderWidth: 1 },
-                  lineStyle: { width: 2, color: '#ff5252' }
+                  type: 'bar',
+                  stack: 'total',
+                  barWidth: 18,
+                  data: challenge2Data.map((val, idx) => val - baseData[idx]),
+                  itemStyle: {
+                      color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                          { offset: 0, color: 'rgba(255, 82, 82, 0.9)' },
+                          { offset: 1, color: 'rgba(211, 47, 47, 0.7)' }
+                      ]),
+                      borderRadius: [0, 0, 0, 0]
+                  }
               },
+              // 挑战一档 - 堆叠柱状图
               {
                   name: '挑战一档',
-                  type: 'line',
-                  smooth: true,
-                  data: challenge1Data,
-                  symbol: 'circle',
-                  symbolSize: 4,
-                  itemStyle: { color: '#69f0ae', borderColor: '#fff', borderWidth: 1 },
-                  lineStyle: { width: 2, color: '#69f0ae' }
+                  type: 'bar',
+                  stack: 'total',
+                  barWidth: 18,
+                  data: challenge1Data.map((val, idx) => val - challenge2Data[idx]),
+                  itemStyle: {
+                      color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                          { offset: 0, color: 'rgba(105, 240, 174, 0.9)' },
+                          { offset: 1, color: 'rgba(0, 200, 83, 0.7)' }
+                      ]),
+                      borderRadius: [4, 4, 0, 0]
+                  },
+                  label: {
+                      show: true,
+                      position: 'top',
+                      color: '#69f0ae',
+                      fontSize: 9,
+                      formatter: function(params) {
+                          return challenge1Data[params.dataIndex];
+                      },
+                      fontWeight: 'bold'
+                  }
               }
           ]
       });
@@ -942,7 +978,8 @@ export default {
               data: generateTimeAxis(timeMode),
               axisLine: { lineStyle: { color: axisLineColor } },
               axisTick: { show: false },
-              axisLabel: { color: labelColor, fontSize: 8, rotate: 30 }
+              axisLabel: { color: labelColor, fontSize: 8, rotate: 30 },
+              boundaryGap: false
           },
           yAxis: {
               type: 'value',
@@ -957,35 +994,64 @@ export default {
               }
           },
           series: [
+              // 基本目标 - 面积图
               {
                   name: '基本目标',
                   type: 'line',
                   smooth: true,
                   data: baseData,
                   symbol: 'circle',
-                  symbolSize: 4,
-                  itemStyle: { color: '#ffc107', borderColor: '#fff', borderWidth: 1 },
-                  lineStyle: { width: 2, color: '#ffc107' }
+                  symbolSize: 5,
+                  itemStyle: { color: '#ffc107' },
+                  lineStyle: { width: 2, color: '#ffc107' },
+                  areaStyle: {
+                      color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                          { offset: 0, color: 'rgba(255, 193, 7, 0.5)' },
+                          { offset: 1, color: 'rgba(255, 193, 7, 0.1)' }
+                      ])
+                  }
               },
+              // 挑战二档 - 面积图
               {
                   name: '挑战二档',
                   type: 'line',
                   smooth: true,
                   data: challenge2Data,
                   symbol: 'circle',
-                  symbolSize: 4,
-                  itemStyle: { color: '#ff5252', borderColor: '#fff', borderWidth: 1 },
-                  lineStyle: { width: 2, color: '#ff5252' }
+                  symbolSize: 5,
+                  itemStyle: { color: '#ff5252' },
+                  lineStyle: { width: 2, color: '#ff5252' },
+                  areaStyle: {
+                      color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                          { offset: 0, color: 'rgba(255, 82, 82, 0.5)' },
+                          { offset: 1, color: 'rgba(255, 82, 82, 0.1)' }
+                      ])
+                  }
               },
+              // 挑战一档 - 面积图
               {
                   name: '挑战一档',
                   type: 'line',
                   smooth: true,
                   data: challenge1Data,
                   symbol: 'circle',
-                  symbolSize: 4,
-                  itemStyle: { color: '#69f0ae', borderColor: '#fff', borderWidth: 1 },
-                  lineStyle: { width: 2, color: '#69f0ae' }
+                  symbolSize: 5,
+                  itemStyle: { color: '#69f0ae' },
+                  lineStyle: { width: 2, color: '#69f0ae' },
+                  areaStyle: {
+                      color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                          { offset: 0, color: 'rgba(105, 240, 174, 0.5)' },
+                          { offset: 1, color: 'rgba(105, 240, 174, 0.1)' }
+                      ])
+                  },
+                  label: {
+                      show: true,
+                      position: 'top',
+                      color: '#69f0ae',
+                      fontSize: 9,
+                      formatter: '{c}',
+                      fontWeight: 'bold'
+                  }
               }
           ]
       });
