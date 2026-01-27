@@ -1,0 +1,723 @@
+<template>
+  <div class="dashboard-container">
+    <div class="background-grid"></div>
+    <div class="header">
+      <div class="header-center">
+        <div class="header-title">数据可视化指挥中心</div>
+        <div class="header-subtitle">DATA VISUALIZATION COMMAND CENTER</div>
+      </div>
+      <div class="header-time">{{ currentTime }}</div>
+    </div>
+
+    <div class="main-body">
+      <!-- Left Sidebar -->
+      <div class="left-sidebar">
+        <!-- Personal Info -->
+        <div class="tech-box user-info-box">
+           <div class="tech-box-title">
+              <span class="icon">➜</span> 指挥官信息
+           </div>
+           <div class="user-content">
+              <div class="avatar-ring">
+                 <div class="avatar-inner">
+                    <i class="el-icon-user"></i>
+                 </div>
+              </div>
+              <div class="user-text">
+                  <h3>Chief Commander</h3>
+                  <div class="status-badge">ONLINE</div>
+              </div>
+           </div>
+           <div class="action-grid">
+               <div class="action-item">公告</div>
+               <div class="action-item active">工作</div>
+               <div class="action-item">待办</div>
+           </div>
+        </div>
+
+        <!-- Left Chart Area -->
+        <div class="tech-box full-height-box">
+           <div class="tech-box-title">
+              <span class="icon">➜</span> 生产监控
+           </div>
+           <div class="chart-column">
+              <!-- 1. Oil & Gas Production -->
+              <div class="sub-chart-box">
+                <div class="sub-title">油气总产量</div>
+                <div ref="leftChart1" class="chart-ref"></div>
+              </div>
+              <!-- 2. Oil & Gas Net Production -->
+              <div class="sub-chart-box">
+                <div class="sub-title">油气净产量 (万吨)</div>
+                <div ref="leftChart2" class="chart-ref"></div>
+              </div>
+              <!-- 3. Investment -->
+              <div class="sub-chart-box">
+                <div class="sub-title">投资构成</div>
+                <div ref="leftChart3" class="chart-ref"></div>
+              </div>
+              <!-- 4. Workload -->
+              <div class="sub-chart-box">
+                <div class="sub-title">工作量统计</div>
+                <div ref="leftChart4" class="chart-ref"></div>
+              </div>
+               <!-- 5. Expenses -->
+              <div class="sub-chart-box">
+                <div class="sub-title">经费支出</div>
+                <div ref="leftChart5" class="chart-ref"></div>
+              </div>
+           </div>
+        </div>
+      </div>
+
+      <!-- Right Content -->
+      <div class="right-content">
+        <!-- Top Cards -->
+        <div class="top-cards-row">
+          <div class="stat-card" v-for="(card, index) in topCards" :key="index">
+            <div class="stat-card-inner">
+                <div class="card-icon-box">
+                    <i class="el-icon-bell" v-if="index===0"></i>
+                    <i class="el-icon-s-check" v-if="index===1"></i>
+                    <i class="el-icon-position" v-if="index===2"></i>
+                    <i class="el-icon-reading" v-if="index===3"></i>
+                    <i class="el-icon-setting" v-if="index===4"></i>
+                </div>
+                <div class="card-info">
+                    <div class="stat-title">{{ card.title }}</div>
+                    <div class="stat-list">
+                        <div v-for="(item, i) in card.items" :key="i" class="stat-item">{{item}}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="corner-decor lt"></div>
+            <div class="corner-decor rb"></div>
+          </div>
+        </div>
+
+        <!-- Main Chart Area + Right Extras -->
+        <div class="charts-and-extras">
+          <!-- Charts Area -->
+          <div class="center-area">
+             <div class="map-border-box">
+                <div class="border-line top-line"></div>
+                <div class="border-line bottom-line"></div>
+
+                <div class="filter-row">
+                    <div class="section-label">核心指标考核 DASHBOARD</div>
+                    <div class="time-tabs">
+                        <span class="tab active">YEAR</span>
+                        <span class="tab">QTR</span>
+                        <span class="tab">MON</span>
+                    </div>
+                </div>
+
+                <div class="center-grid">
+                  <div class="grid-cell">
+                    <div class="cell-title">增储上产</div>
+                    <div ref="chart1" class="cell-chart"></div>
+                  </div>
+                  <div class="grid-cell">
+                    <div class="cell-title">成本效益</div>
+                    <div ref="chart2" class="cell-chart"></div>
+                  </div>
+                  <div class="grid-cell">
+                    <div class="cell-title">战新产业</div>
+                    <div ref="chart3" class="cell-chart"></div>
+                  </div>
+                  <div class="grid-cell">
+                    <div class="cell-title">关键绩效</div>
+                    <div ref="chart4" class="cell-chart"></div>
+                  </div>
+                </div>
+             </div>
+          </div>
+
+          <!-- Right Extras -->
+          <div class="right-sidebar">
+            <div class="tech-box extra-box">
+              <div class="tech-box-title"><span class="icon">➜</span> 综合效能</div>
+              <div ref="gaugeChart" class="chart-ref"></div>
+            </div>
+            <div class="tech-box extra-box">
+              <div class="tech-box-title"><span class="icon">➜</span> 实时动态</div>
+              <div class="news-scroll">
+                 <div class="news-row" v-for="i in 5" :key="i">
+                    <span class="news-time">10:{{30-i}}</span>
+                    <span class="news-text">系统模块 {{i}} 自检完成...</span>
+                 </div>
+              </div>
+            </div>
+            <div class="tech-box extra-box">
+              <div class="tech-box-title"><span class="icon">➜</span> 系统监控</div>
+              <div class="monitor-list">
+                 <div class="monitor-item">
+                    <span class="label">CPU LOAD</span>
+                    <div class="bar-bg"><div class="bar-fill" style="width: 45%; background: #00e5ff;"></div></div>
+                    <span class="val">45%</span>
+                 </div>
+                 <div class="monitor-item">
+                    <span class="label">MEMORY</span>
+                    <div class="bar-bg"><div class="bar-fill" style="width: 72%; background: #ffea00;"></div></div>
+                    <span class="val">72%</span>
+                 </div>
+                 <div class="monitor-item">
+                    <span class="label">NETWORK</span>
+                    <div class="bar-bg"><div class="bar-fill" style="width: 28%; background: #76ff03;"></div></div>
+                    <span class="val">28%</span>
+                 </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+import * as echarts from 'echarts';
+
+// Utilities for gradients
+const getLinearGradient = (c1, c2) => new echarts.graphic.LinearGradient(0, 0, 0, 1, [{offset: 0, color: c1}, {offset: 1, color: c2}]);
+
+export default {
+  name: 'Dashboard',
+  data() {
+    return {
+      currentTime: '',
+      topCards: [
+        { title: '今日提醒', badge: 'W', items: ['9:30 勘探会议', '14:00 表彰大会'] },
+        { title: '待审批', badge: 'W', items: ['立项审批', '采购审批'] },
+        { title: '差旅计划', badge: 'W', items: ['16:00 航班飞北京'] },
+        { title: '党务活动', badge: 'M', items: ['本月党小组会议'] },
+        { title: '系统通知', badge: 'S', items: ['服务器维护公告'] },
+      ]
+    }
+  },
+  mounted() {
+    this.updateTime();
+    setInterval(this.updateTime, 1000);
+    this.initCharts();
+    window.addEventListener('resize', this.handleResize);
+  },
+  beforeDestroy() {
+    window.removeEventListener('resize', this.handleResize);
+  },
+  methods: {
+    updateTime() {
+        const now = new Date();
+        this.currentTime = now.getFullYear() + '-' +
+            String(now.getMonth()+1).padStart(2,'0') + '-' +
+            String(now.getDate()).padStart(2,'0') + ' ' +
+            String(now.getHours()).padStart(2,'0') + ':' +
+            String(now.getMinutes()).padStart(2,'0') + ':' +
+            String(now.getSeconds()).padStart(2,'0');
+    },
+    handleResize() {
+        const refs = ['leftChart1', 'leftChart2', 'leftChart3', 'leftChart4', 'leftChart5', 'chart1', 'chart2', 'chart3', 'chart4', 'gaugeChart'];
+        refs.forEach(ref => {
+            if (this.$refs[ref]) echarts.getInstanceByDom(this.$refs[ref]).resize();
+        });
+    },
+    initCharts() {
+      // Common config
+      const axisLineColor = 'rgba(0, 229, 255, 0.3)';
+      const splitLineColor = 'rgba(0, 229, 255, 0.1)';
+      const labelColor = '#a6b0c3';
+
+      const commonGrid = { top: 25, bottom: 5, left: 0, right: 0, containLabel: true };
+      const commonXAxis = {
+        axisLine: { lineStyle: { color: axisLineColor } },
+        axisTick: { show: false },
+        axisLabel: { color: labelColor, fontSize: 9 }
+      };
+      const commonYAxis = {
+        splitLine: { lineStyle: { color: splitLineColor, type: 'dashed' } },
+        axisLabel: { color: labelColor, fontSize: 9 }
+      };
+
+      // --- Left Charts ---
+
+      // 1. Oil & Gas
+      const lc1 = echarts.init(this.$refs.leftChart1);
+      lc1.setOption({
+         tooltip: { trigger: 'axis' },
+         grid: { top: 10, bottom: 0, left: 0, right: 10, containLabel: true },
+         xAxis: { type: 'value', show: false },
+         yAxis: { type: 'category', data: ['天然气', '石油'], axisLine: {show:false}, axisTick:{show:false}, axisLabel:{color:'#fff'} },
+         series: [{
+             type: 'bar',
+             data: [78, 55],
+             barWidth: 8,
+             itemStyle: { borderRadius: 4, color: getLinearGradient('#00f260', '#0575e6') },
+             label: { show: true, position: 'right', color: '#fff' },
+             showBackground: true,
+             backgroundStyle: { color: 'rgba(255,255,255,0.05)', borderRadius: 4 }
+         }]
+      });
+
+      // 2. Net Production (Pictorial)
+      const lc2 = echarts.init(this.$refs.leftChart2);
+      lc2.setOption({
+          grid: { top: 0, bottom: 0, left: 0, right: 0, containLabel: true },
+          xAxis: { show: false, max: 6000 },
+          yAxis: { type: 'category', data: ['净产量'], show: false },
+          series: [
+              {
+                  type: 'pictorialBar',
+                  symbol: 'rect',
+                  symbolRepeat: 'fixed',
+                  symbolMargin: 2,
+                  symbolClip: true,
+                  symbolSize: [6, 15],
+                  data: [4567],
+                  itemStyle: { color: '#00e5ff' },
+                  label: { show: true, position: 'right', offset: [10, 0], color: '#fff', fontSize: 14, formatter: '{c}' },
+                  z: 10
+              },
+              {
+                  type: 'pictorialBar',
+                  symbol: 'rect',
+                  symbolRepeat: 'fixed',
+                  symbolMargin: 2,
+                  symbolSize: [6, 15],
+                  data: [6000], // Background
+                  itemStyle: { color: 'rgba(0, 229, 255, 0.1)' },
+                  animation: false,
+                  z: 5
+              }
+          ]
+      });
+
+      // 3. Investment (Donut)
+      const lc3 = echarts.init(this.$refs.leftChart3);
+      lc3.setOption({
+          tooltip: { trigger: 'item' },
+          legend: { top: 'center', right: 0, orient: 'vertical', textStyle: { color: '#fff', fontSize: 9 }, itemWidth: 8, itemHeight: 8 },
+          series: [{
+              type: 'pie',
+              radius: ['50%', '70%'],
+              center: ['30%', '50%'],
+              avoidLabelOverlap: false,
+              label: { show: false },
+              itemStyle: { borderColor: '#000', borderWidth: 2 },
+              data: [
+                  { value: 3.45, name: '勘探', itemStyle: {color: '#36d1dc'} },
+                  { value: 6.78, name: '开发', itemStyle: {color: '#5b86e5'} },
+                  { value: 0.89, name: '生产', itemStyle: {color: '#ff9966'} },
+                  { value: 1.22, name: '其它', itemStyle: {color: '#ff5e62'} }
+              ]
+          }]
+      });
+
+      // 4. Workload (Line/Area)
+      const lc4 = echarts.init(this.$refs.leftChart4);
+      lc4.setOption({
+          grid: commonGrid,
+          tooltip: { trigger: 'axis' },
+          xAxis: { ...commonXAxis, type: 'category', data: ['探井', '开发', '调整'] },
+          yAxis: { ...commonYAxis, type: 'value' },
+          series: [{
+              type: 'line',
+              smooth: true,
+              data: [12, 23, 5],
+              symbol: 'circle',
+              symbolSize: 6,
+              itemStyle: { color: '#f093fb', borderColor: '#fff' },
+              lineStyle: { width: 3, color: '#f093fb' },
+              areaStyle: { color: new echarts.graphic.LinearGradient(0,0,0,1, [{offset:0, color: 'rgba(240, 147, 251, 0.5)'}, {offset:1, color: 'rgba(240, 147, 251, 0)'}]) }
+          }]
+      });
+
+      // 5. Expenses (Rose)
+      const lc5 = echarts.init(this.$refs.leftChart5);
+      lc5.setOption({
+          tooltip: { trigger: 'item' },
+          series: [{
+              type: 'pie',
+              roseType: 'area',
+              radius: [10, 40],
+              center: ['50%', '50%'],
+              itemStyle: { borderRadius: 3 },
+              data: [
+                  { value: 40, name: '管理', itemStyle: {color:'#4facfe'} },
+                  { value: 30, name: '销售', itemStyle: {color:'#00f2fe'} },
+                  { value: 20, name: '科研', itemStyle: {color:'#43e97b'} }
+              ],
+              label: { color: '#fff', fontSize: 9 }
+          }]
+      });
+
+
+      // --- Center Charts ---
+      const chartProps = {
+          grid: { top: 30, bottom: 5, left: 5, right: 5, containLabel: true },
+          xAxis: { ...commonXAxis, axisLabel: { color: '#fff', fontSize: 10 } },
+          yAxis: { ...commonYAxis, show: false },
+          legend: { top: 0, right: 0, textStyle: { color: '#fff', fontSize: 9 }, itemWidth: 10, itemHeight: 4 }
+      };
+
+      // C1: Cylinder Bars
+      const c1 = echarts.init(this.$refs.chart1);
+      c1.setOption({
+          ...chartProps,
+          legend: { show: true, textStyle: {color: '#fff'} },
+          xAxis: { type: 'category', data: ['储量', '原油', '天然气'], axisLabel: {color:'#fff'} },
+          series: [
+              { name: '基本', type: 'bar', data: [68, 55, 88], itemStyle: { color: '#4facfe' } },
+              { name: '挑战', type: 'bar', data: [88, 76, 114], itemStyle: { color: '#00f2fe' } },
+              {
+                  type: 'pictorialBar',
+                  symbol: 'circle',
+                  symbolPosition: 'end',
+                  symbolSize: [15, 6],
+                  symbolOffset: [0, -4],
+                  z: 10,
+                  data: [88, 76, 114],
+                  itemStyle: { color: '#fff' }
+              }
+          ]
+      });
+
+      // C2: Line + Bar
+      const c2 = echarts.init(this.$refs.chart2);
+      c2.setOption({
+          ...chartProps,
+          tooltip: { trigger: 'axis' },
+          xAxis: { type: 'category', data: ['利润', '五项'], axisLabel: {color:'#fff'} },
+          series: [
+              { name: 'A', type: 'bar', data: [45, 20], barWidth: 15, itemStyle: { color: getLinearGradient('#fa709a', '#fee140') } },
+              { name: 'B', type: 'bar', data: [56, 19], barWidth: 15, itemStyle: { color: getLinearGradient('#96e6a1', '#d4fc79') } },
+              { name: 'Trend', type: 'line', data: [100, 50], yAxisIndex: 0, lineStyle: { type: 'dashed' } }
+          ]
+      });
+
+      // C3: Pictorial
+      const c3 = echarts.init(this.$refs.chart3);
+      c3.setOption({
+          ...chartProps,
+          xAxis: { data: ['投资', '营收'], axisLabel: {color:'#fff'} },
+          series: [{
+              type: 'pictorialBar',
+              symbol: 'path://M0,10 L10,10 C5.5,10 5.5,5 5,0 C4.5,5 4.5,10 0,10 z',
+              itemStyle: { opacity: 0.5, color: '#a18cd1' },
+              data: [12, 35],
+              z: 5
+          }, {
+               type: 'pictorialBar',
+               symbol: 'path://M0,10 L10,10 C5.5,10 5.5,5 5,0 C4.5,5 4.5,10 0,10 z',
+               itemStyle: { color: '#fbc2eb' },
+               data: [30, 75],
+               z: 10,
+               label: { show: true, position: 'top', color: '#fff' }
+          }]
+      });
+
+       // C4: Radar
+      const c4 = echarts.init(this.$refs.chart4);
+      c4.setOption({
+          tooltip: {},
+          radar: {
+              indicator: [
+                  { name: 'A', max: 100 },
+                  { name: 'B', max: 100 },
+                  { name: 'C', max: 100 },
+                  { name: 'D', max: 100 },
+                  { name: 'E', max: 100 }
+              ],
+              splitArea: { areaStyle: { color: ['rgba(0,229,255,0.1)', 'rgba(0,0,0,0)'] } },
+              axisLine: { lineStyle: { color: 'rgba(0,229,255,0.3)' } },
+              splitLine: { lineStyle: { color: 'rgba(0,229,255,0.3)' } },
+              name: { textStyle: { color: '#fff', fontSize: 9 } },
+              center: ['50%', '55%'],
+              radius: '65%'
+          },
+          series: [{
+              type: 'radar',
+              data: [
+                  { value: [80, 90, 70, 80, 60], name: 'Data A' },
+                  { value: [60, 50, 40, 70, 80], name: 'Data B' }
+              ],
+              areaStyle: { opacity: 0.3 }
+          }]
+      });
+
+      // Gauge
+      const g1 = echarts.init(this.$refs.gaugeChart);
+      g1.setOption({
+          series: [{
+              type: 'gauge',
+              radius: '90%',
+              center: ['50%', '60%'],
+              startAngle: 180, endAngle: 0,
+              min: 0, max: 100,
+              splitNumber: 5,
+              axisLine: { lineStyle: { width: 10, color: [[1, getLinearGradient('#00c6fb', '#005bea')]] } },
+              pointer: { show: false },
+              axisTick: { show: false },
+              splitLine: { show: false },
+              axisLabel: { show: false },
+              detail: {
+                  valueAnimation: true,
+                  offsetCenter: [0, -10],
+                  fontSize: 24,
+                  fontWeight: 'bolder',
+                  formatter: '{value}%',
+                  color: '#fff',
+                  textShadowBlur: 10,
+                  textShadowColor: '#005bea'
+              },
+              data: [{ value: 98.5 }]
+          }]
+      });
+    }
+  }
+}
+</script>
+
+<style scoped>
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
+
+/* Animations */
+@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+@keyframes pulse { 0% { opacity: 0.6; } 50% { opacity: 1; } 100% { opacity: 0.6; } }
+@keyframes scanline { 0% { top: -100%; } 100% { top: 200%; } }
+
+/* Global Layout */
+.dashboard-container {
+  width: 100vw;
+  height: 100vh;
+  background-color: #050a14;
+  background-image:
+      linear-gradient(0deg, transparent 24%, rgba(0, 255, 255, .05) 25%, rgba(0, 255, 255, .05) 26%, transparent 27%, transparent 74%, rgba(0, 255, 255, .05) 75%, rgba(0, 255, 255, .05) 76%, transparent 77%, transparent),
+      linear-gradient(90deg, transparent 24%, rgba(0, 255, 255, .05) 25%, rgba(0, 255, 255, .05) 26%, transparent 27%, transparent 74%, rgba(0, 255, 255, .05) 75%, rgba(0, 255, 255, .05) 76%, transparent 77%, transparent);
+  background-size: 50px 50px;
+  color: #fff;
+  font-family: 'Microsoft YaHei', sans-serif;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+/* Header - Sci-fi Shape */
+.header {
+  height: 60px;
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 0 20px;
+  background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%"><path d="M0,0 L1920,0 L1920,40 L1300,40 L1280,60 L640,60 L620,40 L0,40 Z" fill="%230a1525" opacity="0.9"/></svg>') no-repeat top center;
+  background-size: 100% 100%;
+  flex-shrink: 0;
+  z-index: 10;
+}
+.header-center {
+    width: 100%;
+    text-align: center;
+    padding-top: 5px;
+}
+.header-title {
+    font-size: 24px;
+    font-weight: bold;
+    letter-spacing: 4px;
+    background: linear-gradient(to bottom, #fff, #84fab0);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 0 20px rgba(132, 250, 176, 0.5);
+}
+.header-subtitle {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 10px;
+    color: #4facfe;
+    letter-spacing: 2px;
+    margin-top: -2px;
+}
+.header-time {
+    position: absolute;
+    right: 20px;
+    top: 10px;
+    font-family: 'Orbitron', monospace;
+    font-size: 18px;
+    color: #00f2fe;
+    text-shadow: 0 0 5px #00f2fe;
+}
+
+/* Main Body */
+.main-body {
+    flex: 1;
+    display: flex;
+    padding: 10px;
+    gap: 10px;
+    overflow: hidden;
+}
+
+/* Left Sidebar */
+.left-sidebar {
+    width: 25%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* Tech Box Style */
+.tech-box {
+    background: rgba(10, 20, 40, 0.6);
+    border: 1px solid rgba(0, 229, 255, 0.2);
+    position: relative;
+    padding: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+/* Corner Accents */
+.tech-box::before {
+    content: ''; position: absolute; top: -1px; left: -1px; width: 10px; height: 10px;
+    border-top: 2px solid #00e5ff; border-left: 2px solid #00e5ff;
+}
+.tech-box::after {
+    content: ''; position: absolute; bottom: -1px; right: -1px; width: 10px; height: 10px;
+    border-bottom: 2px solid #00e5ff; border-right: 2px solid #00e5ff;
+}
+
+.tech-box-title {
+    font-size: 14px;
+    color: #00e5ff;
+    border-bottom: 1px solid rgba(0, 229, 255, 0.2);
+    padding-bottom: 5px;
+    margin-bottom: 10px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+}
+.tech-box-title .icon { margin-right: 5px; font-size: 10px; }
+
+/* User Box */
+.user-info-box { height: 160px; display: flex; flex-direction: column; }
+.user-content { display: flex; align-items: center; gap: 15px; flex: 1; }
+.avatar-ring {
+    width: 60px; height: 60px; border-radius: 50%;
+    border: 2px dashed #00e5ff;
+    display: flex; align-items: center; justify-content: center;
+    animation: spin 10s linear infinite;
+}
+.avatar-inner {
+    width: 46px; height: 46px; background: #00e5ff; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    color: #000; font-size: 24px;
+    animation: spin 10s linear infinite reverse;
+}
+.user-text h3 { margin: 0; font-family: 'Orbitron'; font-size: 14px; color: #fff; }
+.status-badge {
+    display: inline-block; background: rgba(0, 255, 0, 0.2);
+    color: #0f0; border: 1px solid #0f0;
+    font-size: 10px; padding: 0 5px; margin-top: 5px;
+}
+.action-grid { display: flex; gap: 5px; margin-top: 5px; }
+.action-item {
+    flex: 1; text-align: center; background: rgba(255,255,255,0.05);
+    font-size: 12px; padding: 5px 0; cursor: pointer; border: 1px solid transparent;
+}
+.action-item:hover, .action-item.active {
+    border-color: #00e5ff; color: #00e5ff; background: rgba(0, 229, 255, 0.1);
+}
+
+/* Left Charts List */
+.full-height-box { flex: 1; display: flex; flex-direction: column; }
+.chart-column { flex: 1; display: flex; flex-direction: column; gap: 5px; overflow-y: auto; }
+.sub-chart-box {
+    flex: 1; display: flex; flex-direction: column;
+    background: linear-gradient(90deg, rgba(255,255,255,0.02), transparent);
+    padding: 5px; border-left: 2px solid rgba(0, 229, 255, 0.1);
+}
+.sub-title { font-size: 12px; color: #a6b0c3; margin-bottom: 2px; }
+.chart-ref { flex: 1; width: 100%; min-height: 50px; }
+
+/* Right Content */
+.right-content { flex: 1; display: flex; flex-direction: column; gap: 10px; }
+
+/* Top Stat Cards */
+.top-cards-row { display: flex; gap: 10px; height: 80px; }
+.stat-card {
+    flex: 1; position: relative; background: rgba(6, 40, 60, 0.6);
+    border: 1px solid rgba(80, 150, 250, 0.2);
+    display: flex; align-items: center;
+}
+.stat-card-inner { display: flex; align-items: center; padding: 10px; width: 100%; }
+.card-icon-box {
+    width: 40px; height: 40px; background: rgba(0, 229, 255, 0.1);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px; color: #00e5ff; margin-right: 10px;
+    clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+}
+.stat-title { font-size: 12px; color: #8facba; }
+.stat-item { font-size: 11px; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100px; }
+
+.corner-decor { position: absolute; width: 8px; height: 8px; border-color: #00e5ff; border-style: solid; }
+.corner-decor.lt { top: 0; left: 0; border-width: 2px 0 0 2px; }
+.corner-decor.rb { bottom: 0; right: 0; border-width: 0 2px 2px 0; }
+
+/* Main Center Area */
+.charts-and-extras { flex: 1; display: flex; gap: 10px; }
+
+.center-area { flex: 3; display: flex; flex-direction: column; position: relative; }
+
+.map-border-box {
+    flex: 1; border: 1px solid rgba(0, 229, 255, 0.1);
+    background: rgba(0, 10, 20, 0.5);
+    position: relative; display: flex; flex-direction: column; padding: 20px;
+}
+/* Complex Center Border Animation */
+.border-line { position: absolute; height: 2px; background: #00e5ff; width: 30%; transition: all 0.5s; }
+.top-line { top: 0; left: 35%; }
+.bottom-line { bottom: 0; left: 35%; }
+
+.filter-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+.section-label { font-family: 'Orbitron'; color: #00e5ff; font-size: 16px; letter-spacing: 2px; }
+.time-tabs { display: flex; gap: 5px; }
+.tab {
+    padding: 2px 10px; font-size: 10px; background: rgba(0,0,0,0.5);
+    border: 1px solid #333; cursor: pointer; color: #888;
+}
+.tab.active { border-color: #00e5ff; color: #00e5ff; box-shadow: 0 0 5px #00e5ff; }
+
+.center-grid {
+    flex: 1; display: grid;
+    grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr;
+    gap: 15px;
+}
+.grid-cell {
+    background: rgba(0, 229, 255, 0.02);
+    border: 1px solid rgba(0, 229, 255, 0.05);
+    display: flex; flex-direction: column;
+    padding: 10px;
+}
+.cell-title {
+    font-size: 14px; color: #fff; margin-bottom: 5px;
+    border-left: 3px solid #00e5ff; padding-left: 8px;
+}
+.cell-chart { flex: 1; width: 100%; min-height: 0; }
+
+/* Right Sidebar */
+.right-sidebar { width: 25%; display: flex; flex-direction: column; gap: 10px; }
+.extra-box { flex: 1; display: flex; flex-direction: column; }
+
+.news-scroll { flex: 1; overflow-y: auto; padding: 5px; }
+.news-row {
+    font-size: 11px; margin-bottom: 8px; border-bottom: 1px dashed rgba(255,255,255,0.1);
+    padding-bottom: 4px; display: flex;
+}
+.news-time { color: #00e5ff; margin-right: 8px; font-family: monospace; }
+.news-text { color: #ccc; }
+
+.monitor-list { display: flex; flex-direction: column; justify-content: space-around; flex: 1; padding: 5px; }
+.monitor-item { display: flex; align-items: center; gap: 10px; font-size: 11px; }
+.label { width: 60px; color: #8facba; }
+.bar-bg { flex: 1; height: 6px; background: #333; border-radius: 3px; overflow: hidden; }
+.bar-fill { height: 100%; box-shadow: 0 0 5px currentColor; }
+.val { width: 30px; text-align: right; color: #fff; font-family: monospace; }
+
+/* Scrollbar Hide */
+::-webkit-scrollbar { width: 2px; }
+::-webkit-scrollbar-thumb { background: #00e5ff; }
+</style>
