@@ -131,19 +131,47 @@
 
                 <div class="center-grid">
                   <div class="grid-cell">
-                    <div class="cell-title">增储上产</div>
+                    <div class="cell-header-row">
+                        <div class="cell-title">增储上产</div>
+                        <div class="cell-tabs">
+                            <span class="c-tab active">年</span>
+                            <span class="c-tab">月</span>
+                            <span class="c-tab">日</span>
+                        </div>
+                    </div>
                     <div ref="chart1" class="cell-chart"></div>
                   </div>
                   <div class="grid-cell">
-                    <div class="cell-title">成本效益</div>
+                    <div class="cell-header-row">
+                        <div class="cell-title">成本效益</div>
+                        <div class="cell-tabs">
+                            <span class="c-tab active">年</span>
+                            <span class="c-tab">月</span>
+                            <span class="c-tab">日</span>
+                        </div>
+                    </div>
                     <div ref="chart2" class="cell-chart"></div>
                   </div>
                   <div class="grid-cell">
-                    <div class="cell-title">战新产业</div>
+                    <div class="cell-header-row">
+                        <div class="cell-title">战新产业</div>
+                        <div class="cell-tabs">
+                            <span class="c-tab active">年</span>
+                            <span class="c-tab">月</span>
+                            <span class="c-tab">日</span>
+                        </div>
+                    </div>
                     <div ref="chart3" class="cell-chart"></div>
                   </div>
                   <div class="grid-cell">
-                    <div class="cell-title">关键绩效</div>
+                    <div class="cell-header-row">
+                        <div class="cell-title">关键绩效</div>
+                        <div class="cell-tabs">
+                            <span class="c-tab active">年</span>
+                            <span class="c-tab">月</span>
+                            <span class="c-tab">日</span>
+                        </div>
+                    </div>
                     <div ref="chart4" class="cell-chart"></div>
                   </div>
                 </div>
@@ -909,9 +937,39 @@ export default {
     display: flex; flex-direction: column;
     padding: 10px;
 }
+.cell-header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 5px;
+}
 .cell-title {
-    font-size: 14px; color: #fff; margin-bottom: 5px;
+    font-size: 14px; color: #fff;
     border-left: 3px solid #00e5ff; padding-left: 8px;
+}
+.cell-tabs {
+    display: flex;
+    gap: 3px;
+}
+.c-tab {
+    font-size: 10px;
+    padding: 1px 6px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #8facba;
+    cursor: pointer;
+    border-radius: 2px;
+    transition: all 0.3s;
+}
+.c-tab:hover {
+    border-color: #00e5ff;
+    color: #00e5ff;
+}
+.c-tab.active {
+    background: rgba(0, 229, 255, 0.2);
+    border-color: #00e5ff;
+    color: #00e5ff;
+    box-shadow: 0 0 5px rgba(0, 229, 255, 0.2);
 }
 .cell-chart { flex: 1; width: 100%; min-height: 0; }
 
