@@ -870,7 +870,10 @@ export default {
                           { offset: 0, color: 'rgba(255, 193, 7, 0.9)' },
                           { offset: 1, color: 'rgba(255, 152, 0, 0.7)' }
                       ]),
-                      borderRadius: [0, 0, 0, 0]
+                      borderRadius: [0, 0, 0, 0],
+                      shadowColor: 'rgba(255, 193, 7, 0.8)',
+                      shadowBlur: 15,
+                      shadowOffsetY: 0
                   }
               },
               // 挑战二档 - 堆叠柱状图
@@ -885,7 +888,10 @@ export default {
                           { offset: 0, color: 'rgba(255, 82, 82, 0.9)' },
                           { offset: 1, color: 'rgba(211, 47, 47, 0.7)' }
                       ]),
-                      borderRadius: [0, 0, 0, 0]
+                      borderRadius: [0, 0, 0, 0],
+                      shadowColor: 'rgba(255, 82, 82, 0.8)',
+                      shadowBlur: 15,
+                      shadowOffsetY: 0
                   }
               },
               // 挑战一档 - 堆叠柱状图
@@ -900,7 +906,10 @@ export default {
                           { offset: 0, color: 'rgba(105, 240, 174, 0.9)' },
                           { offset: 1, color: 'rgba(0, 200, 83, 0.7)' }
                       ]),
-                      borderRadius: [4, 4, 0, 0]
+                      borderRadius: [4, 4, 0, 0],
+                      shadowColor: 'rgba(105, 240, 174, 0.8)',
+                      shadowBlur: 15,
+                      shadowOffsetY: 0
                   },
                   label: {
                       show: true,
@@ -1306,39 +1315,61 @@ export default {
           series: [
               {
                   name: '基本目标',
-                  type: 'line',
-                  step: 'middle',
+                  type: 'scatter',
                   data: [86, 86.5, 87, 87.5, 88, 88.5, 89, 89.5, 89.8, 90],
-                  symbol: 'emptyCircle',
-                  symbolSize: 7,
-                  itemStyle: { color: '#ffc107', borderColor: '#ffc107', borderWidth: 2 },
-                  lineStyle: { width: 2, color: '#ffc107' }
+                  symbolSize: 12,
+                  itemStyle: {
+                      color: new echarts.graphic.RadialGradient(0.5, 0.5, 1, [
+                          { offset: 0, color: '#ffc107' },
+                          { offset: 0.7, color: '#ff9800' },
+                          { offset: 1, color: 'rgba(255, 193, 7, 0.3)' }
+                      ]),
+                      shadowBlur: 8,
+                      shadowColor: '#ffc107',
+                      borderColor: '#ffc107',
+                      borderWidth: 1
+                  }
               },
               {
                   name: '挑战二档',
-                  type: 'line',
-                  step: 'middle',
+                  type: 'scatter',
                   data: [96, 96.5, 97, 97.5, 98, 98.5, 99, 99.5, 99.8, 100],
-                  symbol: 'emptyCircle',
-                  symbolSize: 7,
-                  itemStyle: { color: '#ff5252', borderColor: '#ff5252', borderWidth: 2 },
-                  lineStyle: { width: 2, color: '#ff5252' }
+                  symbolSize: 12,
+                  itemStyle: {
+                      color: new echarts.graphic.RadialGradient(0.5, 0.5, 1, [
+                          { offset: 0, color: '#ff5252' },
+                          { offset: 0.7, color: '#d32f2f' },
+                          { offset: 1, color: 'rgba(255, 82, 82, 0.3)' }
+                      ]),
+                      shadowBlur: 8,
+                      shadowColor: '#ff5252',
+                      borderColor: '#ff5252',
+                      borderWidth: 1
+                  }
               },
               {
                   name: '挑战一档',
-                  type: 'line',
-                  step: 'middle',
+                  type: 'scatter',
                   data: [106, 106.5, 107, 107.5, 108, 108.5, 109, 109.5, 109.8, 110],
-                  symbol: 'emptyCircle',
-                  symbolSize: 7,
-                  itemStyle: { color: '#69f0ae', borderColor: '#69f0ae', borderWidth: 2 },
-                  lineStyle: { width: 2, color: '#69f0ae' },
+                  symbolSize: 12,
+                  itemStyle: {
+                      color: new echarts.graphic.RadialGradient(0.5, 0.5, 1, [
+                          { offset: 0, color: '#69f0ae' },
+                          { offset: 0.7, color: '#00c853' },
+                          { offset: 1, color: 'rgba(105, 240, 174, 0.3)' }
+                      ]),
+                      shadowBlur: 10,
+                      shadowColor: '#69f0ae',
+                      borderColor: '#69f0ae',
+                      borderWidth: 1
+                  },
                   label: {
                       show: true,
                       position: 'top',
                       color: '#69f0ae',
                       fontSize: 8,
-                      formatter: '{c}'
+                      formatter: '{c}',
+                      distance: 5
                   }
               }
           ]
