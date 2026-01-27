@@ -1069,7 +1069,6 @@ export default {
       chart.setOption({
           tooltip: {
               trigger: 'axis',
-              axisPointer: { type: 'shadow' },
               formatter: function(params) {
                   let result = params[0].axisValue + '<br/>';
                   params.forEach(item => {
@@ -1092,7 +1091,8 @@ export default {
               data: timeData,
               axisLabel: { color: '#fff', fontSize: 9, interval: 0, rotate: 30 },
               axisLine: { lineStyle: { color: axisLineColor } },
-              axisTick: { show: false }
+              axisTick: { show: false },
+              boundaryGap: false
           },
           yAxis: {
               type: 'value',
@@ -1109,43 +1109,55 @@ export default {
           series: [
               {
                   name: '基本目标',
-                  type: 'bar',
-                  barWidth: 8,
+                  type: 'line',
+                  smooth: true,
                   data: [85, 85.5, 86, 86.5, 87, 87.5, 88, 88.5, 89, 90],
-                  itemStyle: {
+                  symbol: 'circle',
+                  symbolSize: 5,
+                  itemStyle: { color: '#ffc107' },
+                  lineStyle: { width: 2, color: '#ffc107' },
+                  areaStyle: {
                       color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-                          { offset: 0, color: '#ffc107' },
-                          { offset: 1, color: '#ff9800' }
+                          { offset: 0, color: 'rgba(255, 193, 7, 0.4)' },
+                          { offset: 1, color: 'rgba(255, 193, 7, 0.05)' }
                       ])
                   }
               },
               {
                   name: '挑战二档',
-                  type: 'bar',
-                  barWidth: 8,
+                  type: 'line',
+                  smooth: true,
                   data: [95, 95.5, 96, 96.5, 97, 97.5, 98, 98.5, 99, 100],
-                  itemStyle: {
+                  symbol: 'circle',
+                  symbolSize: 5,
+                  itemStyle: { color: '#ff5252' },
+                  lineStyle: { width: 2, color: '#ff5252' },
+                  areaStyle: {
                       color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-                          { offset: 0, color: '#ff5252' },
-                          { offset: 1, color: '#d32f2f' }
+                          { offset: 0, color: 'rgba(255, 82, 82, 0.4)' },
+                          { offset: 1, color: 'rgba(255, 82, 82, 0.05)' }
                       ])
                   }
               },
               {
                   name: '挑战一档',
-                  type: 'bar',
-                  barWidth: 8,
+                  type: 'line',
+                  smooth: true,
                   data: [105, 105.5, 106, 106.5, 107, 107.5, 108, 108.5, 109, 110],
-                  itemStyle: {
+                  symbol: 'circle',
+                  symbolSize: 5,
+                  itemStyle: { color: '#69f0ae' },
+                  lineStyle: { width: 2, color: '#69f0ae' },
+                  areaStyle: {
                       color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-                          { offset: 0, color: '#69f0ae' },
-                          { offset: 1, color: '#00c853' }
+                          { offset: 0, color: 'rgba(105, 240, 174, 0.4)' },
+                          { offset: 1, color: 'rgba(105, 240, 174, 0.05)' }
                       ])
                   },
                   label: {
                       show: true,
                       position: 'top',
-                      color: '#fff',
+                      color: '#69f0ae',
                       fontSize: 8,
                       formatter: '{c}'
                   }
@@ -1189,7 +1201,6 @@ export default {
       chart.setOption({
           tooltip: {
               trigger: 'axis',
-              axisPointer: { type: 'shadow' },
               formatter: function(params) {
                   let result = params[0].axisValue + '<br/>';
                   params.forEach(item => {
@@ -1229,43 +1240,37 @@ export default {
           series: [
               {
                   name: '基本目标',
-                  type: 'bar',
-                  barWidth: 8,
+                  type: 'line',
+                  step: 'middle',
                   data: [86, 86.5, 87, 87.5, 88, 88.5, 89, 89.5, 89.8, 90],
-                  itemStyle: {
-                      color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-                          { offset: 0, color: '#ffc107' },
-                          { offset: 1, color: '#ff9800' }
-                      ])
-                  }
+                  symbol: 'emptyCircle',
+                  symbolSize: 7,
+                  itemStyle: { color: '#ffc107', borderColor: '#ffc107', borderWidth: 2 },
+                  lineStyle: { width: 2, color: '#ffc107' }
               },
               {
                   name: '挑战二档',
-                  type: 'bar',
-                  barWidth: 8,
+                  type: 'line',
+                  step: 'middle',
                   data: [96, 96.5, 97, 97.5, 98, 98.5, 99, 99.5, 99.8, 100],
-                  itemStyle: {
-                      color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-                          { offset: 0, color: '#ff5252' },
-                          { offset: 1, color: '#d32f2f' }
-                      ])
-                  }
+                  symbol: 'emptyCircle',
+                  symbolSize: 7,
+                  itemStyle: { color: '#ff5252', borderColor: '#ff5252', borderWidth: 2 },
+                  lineStyle: { width: 2, color: '#ff5252' }
               },
               {
                   name: '挑战一档',
-                  type: 'bar',
-                  barWidth: 8,
+                  type: 'line',
+                  step: 'middle',
                   data: [106, 106.5, 107, 107.5, 108, 108.5, 109, 109.5, 109.8, 110],
-                  itemStyle: {
-                      color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-                          { offset: 0, color: '#69f0ae' },
-                          { offset: 1, color: '#00c853' }
-                      ])
-                  },
+                  symbol: 'emptyCircle',
+                  symbolSize: 7,
+                  itemStyle: { color: '#69f0ae', borderColor: '#69f0ae', borderWidth: 2 },
+                  lineStyle: { width: 2, color: '#69f0ae' },
                   label: {
                       show: true,
                       position: 'top',
-                      color: '#fff',
+                      color: '#69f0ae',
                       fontSize: 8,
                       formatter: '{c}'
                   }
@@ -1309,7 +1314,6 @@ export default {
       chart.setOption({
           tooltip: {
               trigger: 'axis',
-              axisPointer: { type: 'shadow' },
               formatter: function(params) {
                   let result = params[0].axisValue + '<br/>';
                   params.forEach(item => {
@@ -1349,43 +1353,37 @@ export default {
           series: [
               {
                   name: '基本目标',
-                  type: 'bar',
-                  barWidth: 8,
+                  type: 'line',
+                  smooth: true,
                   data: [87, 87.5, 88, 88.5, 89, 89.2, 89.5, 89.8, 90, 90],
-                  itemStyle: {
-                      color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-                          { offset: 0, color: '#ffc107' },
-                          { offset: 1, color: '#ff9800' }
-                      ])
-                  }
+                  symbol: 'circle',
+                  symbolSize: 6,
+                  itemStyle: { color: '#ffc107', borderColor: '#fff', borderWidth: 2 },
+                  lineStyle: { width: 3, color: '#ffc107' }
               },
               {
                   name: '挑战二档',
-                  type: 'bar',
-                  barWidth: 8,
+                  type: 'line',
+                  smooth: true,
                   data: [97, 97.5, 98, 98.5, 99, 99.2, 99.5, 99.8, 100, 100],
-                  itemStyle: {
-                      color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-                          { offset: 0, color: '#ff5252' },
-                          { offset: 1, color: '#d32f2f' }
-                      ])
-                  }
+                  symbol: 'circle',
+                  symbolSize: 6,
+                  itemStyle: { color: '#ff5252', borderColor: '#fff', borderWidth: 2 },
+                  lineStyle: { width: 3, color: '#ff5252' }
               },
               {
                   name: '挑战一档',
-                  type: 'bar',
-                  barWidth: 8,
+                  type: 'line',
+                  smooth: true,
                   data: [107, 107.5, 108, 108.5, 109, 109.2, 109.5, 109.8, 110, 110],
-                  itemStyle: {
-                      color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-                          { offset: 0, color: '#69f0ae' },
-                          { offset: 1, color: '#00c853' }
-                      ])
-                  },
+                  symbol: 'circle',
+                  symbolSize: 6,
+                  itemStyle: { color: '#69f0ae', borderColor: '#fff', borderWidth: 2 },
+                  lineStyle: { width: 3, color: '#69f0ae' },
                   label: {
                       show: true,
                       position: 'top',
-                      color: '#fff',
+                      color: '#69f0ae',
                       fontSize: 8,
                       formatter: '{c}'
                   }
