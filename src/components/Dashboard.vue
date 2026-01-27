@@ -126,44 +126,44 @@
                 <div class="center-grid">
                   <div class="grid-cell">
                     <div class="cell-header-row">
-                        <div class="cell-title">增储上产</div>
+                        <div class="cell-title">利润总额</div>
                         <div class="cell-tabs">
-                            <span class="c-tab">年</span>
-                            <span class="c-tab">月</span>
-                            <span class="c-tab active">日</span>
+                            <span class="c-tab" :class="{active: profitTimeMode === 'year'}" @click="switchProfitTime('year')">年</span>
+                            <span class="c-tab" :class="{active: profitTimeMode === 'month'}" @click="switchProfitTime('month')">月</span>
+                            <span class="c-tab active" :class="{active: profitTimeMode === 'day'}" @click="switchProfitTime('day')">日</span>
                         </div>
                     </div>
                     <div ref="chart1" class="cell-chart"></div>
                   </div>
                   <div class="grid-cell">
                     <div class="cell-header-row">
-                        <div class="cell-title">成本效益</div>
+                        <div class="cell-title">桶油五项</div>
                         <div class="cell-tabs">
-                            <span class="c-tab">年</span>
-                            <span class="c-tab">月</span>
-                            <span class="c-tab active">日</span>
+                            <span class="c-tab" :class="{active: barrelTimeMode === 'year'}" @click="switchBarrelTime('year')">年</span>
+                            <span class="c-tab" :class="{active: barrelTimeMode === 'month'}" @click="switchBarrelTime('month')">月</span>
+                            <span class="c-tab active" :class="{active: barrelTimeMode === 'day'}" @click="switchBarrelTime('day')">日</span>
                         </div>
                     </div>
                     <div ref="chart2" class="cell-chart"></div>
                   </div>
                   <div class="grid-cell">
                     <div class="cell-header-row">
-                        <div class="cell-title">战新产业</div>
+                        <div class="cell-title">投资完成</div>
                         <div class="cell-tabs">
-                            <span class="c-tab">年</span>
-                            <span class="c-tab">月</span>
-                            <span class="c-tab active">日</span>
+                            <span class="c-tab" :class="{active: investTimeMode === 'year'}" @click="switchInvestTime('year')">年</span>
+                            <span class="c-tab" :class="{active: investTimeMode === 'month'}" @click="switchInvestTime('month')">月</span>
+                            <span class="c-tab active" :class="{active: investTimeMode === 'day'}" @click="switchInvestTime('day')">日</span>
                         </div>
                     </div>
                     <div ref="chart3" class="cell-chart"></div>
                   </div>
                   <div class="grid-cell">
                     <div class="cell-header-row">
-                        <div class="cell-title">关键绩效</div>
+                        <div class="cell-title">营业收入</div>
                         <div class="cell-tabs">
-                            <span class="c-tab">年</span>
-                            <span class="c-tab">月</span>
-                            <span class="c-tab active">日</span>
+                            <span class="c-tab" :class="{active: revenueTimeMode === 'year'}" @click="switchRevenueTime('year')">年</span>
+                            <span class="c-tab" :class="{active: revenueTimeMode === 'month'}" @click="switchRevenueTime('month')">月</span>
+                            <span class="c-tab active" :class="{active: revenueTimeMode === 'day'}" @click="switchRevenueTime('day')">日</span>
                         </div>
                     </div>
                     <div ref="chart4" class="cell-chart"></div>
@@ -175,37 +175,37 @@
           <!-- Right Extras -->
           <div class="right-sidebar">
             <div class="tech-box extra-box">
-              <div class="tech-box-title"><span class="icon">➜</span> 综合效能</div>
-              <div ref="gaugeChart" class="chart-ref"></div>
+              <div class="right-chart-header">
+                <div class="tech-box-title"><span class="icon">➜</span> 新增经济可采储量</div>
+                <div class="right-tabs">
+                  <span class="r-tab" :class="{active: reservesTimeMode === 'year'}" @click="switchReservesTime('year')">年</span>
+                  <span class="r-tab" :class="{active: reservesTimeMode === 'month'}" @click="switchReservesTime('month')">月</span>
+                  <span class="r-tab active" :class="{active: reservesTimeMode === 'day'}" @click="switchReservesTime('day')">日</span>
+                </div>
+              </div>
+              <div ref="chartReserves" class="chart-ref"></div>
             </div>
             <div class="tech-box extra-box">
-              <div class="tech-box-title"><span class="icon">➜</span> 实时动态</div>
-              <div class="news-scroll">
-                 <div class="news-row" v-for="i in 5" :key="i">
-                    <span class="news-time">10:{{30-i}}</span>
-                    <span class="news-text">系统模块 {{i}} 自检完成...</span>
-                 </div>
+              <div class="right-chart-header">
+                <div class="tech-box-title"><span class="icon">➜</span> 新增原油总产量</div>
+                <div class="right-tabs">
+                  <span class="r-tab" :class="{active: oilTimeMode === 'year'}" @click="switchOilTime('year')">年</span>
+                  <span class="r-tab" :class="{active: oilTimeMode === 'month'}" @click="switchOilTime('month')">月</span>
+                  <span class="r-tab active" :class="{active: oilTimeMode === 'day'}" @click="switchOilTime('day')">日</span>
+                </div>
               </div>
+              <div ref="chartOil" class="chart-ref"></div>
             </div>
             <div class="tech-box extra-box">
-              <div class="tech-box-title"><span class="icon">➜</span> 系统监控</div>
-              <div class="monitor-list">
-                 <div class="monitor-item">
-                    <span class="label">CPU LOAD</span>
-                    <div class="bar-bg"><div class="bar-fill" style="width: 45%; background: #00e5ff;"></div></div>
-                    <span class="val">45%</span>
-                 </div>
-                 <div class="monitor-item">
-                    <span class="label">MEMORY</span>
-                    <div class="bar-bg"><div class="bar-fill" style="width: 72%; background: #ffea00;"></div></div>
-                    <span class="val">72%</span>
-                 </div>
-                 <div class="monitor-item">
-                    <span class="label">NETWORK</span>
-                    <div class="bar-bg"><div class="bar-fill" style="width: 28%; background: #76ff03;"></div></div>
-                    <span class="val">28%</span>
-                 </div>
+              <div class="right-chart-header">
+                <div class="tech-box-title"><span class="icon">➜</span> 新增天然气总产量</div>
+                <div class="right-tabs">
+                  <span class="r-tab" :class="{active: gasTimeMode === 'year'}" @click="switchGasTime('year')">年</span>
+                  <span class="r-tab" :class="{active: gasTimeMode === 'month'}" @click="switchGasTime('month')">月</span>
+                  <span class="r-tab active" :class="{active: gasTimeMode === 'day'}" @click="switchGasTime('day')">日</span>
+                </div>
               </div>
+              <div ref="chartGas" class="chart-ref"></div>
             </div>
           </div>
         </div>
@@ -225,6 +225,13 @@ export default {
   data() {
     return {
       currentTime: '',
+      reservesTimeMode: 'day',
+      oilTimeMode: 'day',
+      gasTimeMode: 'day',
+      profitTimeMode: 'day',
+      barrelTimeMode: 'day',
+      revenueTimeMode: 'day',
+      investTimeMode: 'day',
       topCards: [
         { title: '今日提醒', badge: 'W', items: ['9:30 勘探会议', '14:00 表彰大会'] },
         { title: '下周事项', badge: 'S', items: ['周一安全培训', '周三项目评审'] },
@@ -254,7 +261,7 @@ export default {
             String(now.getSeconds()).padStart(2,'0');
     },
     handleResize() {
-        const refs = ['leftChart1', 'leftChart2', 'leftChart3', 'leftChart4', 'leftChart5', 'chart1', 'chart2', 'chart3', 'chart4', 'gaugeChart'];
+        const refs = ['leftChart1', 'leftChart2', 'leftChart3', 'leftChart4', 'leftChart5', 'chart1', 'chart2', 'chart3', 'chart4', 'chartReserves', 'chartOil', 'chartGas'];
         refs.forEach(ref => {
             if (this.$refs[ref]) echarts.getInstanceByDom(this.$refs[ref]).resize();
         });
@@ -543,302 +550,967 @@ export default {
           legend: { top: 0, right: 0, textStyle: { color: '#fff', fontSize: 9 }, itemWidth: 10, itemHeight: 4 }
       };
 
-      // C1: Increase Reserves & Production (3 Series Cylinder)
-      const c1 = echarts.init(this.$refs.chart1);
-      c1.setOption({
-          ...chartProps,
-          legend: { show: true, textStyle: {color: '#fff', fontSize: 8}, top: 0, right: 0, itemWidth: 8, itemHeight: 8 },
+      // C1: 利润综合 (Pictorial Bar with Time Switching)
+      this.initProfitChart();
+
+      // C2: 桶油五项 (Time Series with Bar Chart)
+      this.initBarrelChart();
+
+      // C3: 投资完成 (Time Series with Bar Chart)
+      this.initInvestChart();
+
+       // C4: 营业收入 (Time Series with Bar Chart)
+      this.initRevenueChart();
+
+      // --- Right Sidebar Charts (Time Series) ---
+
+      // Generate time axis data
+      const generateTimeAxis = (mode) => {
+        const result = [];
+        const now = new Date();
+
+        if (mode === 'day') {
+          for (let i = 9; i >= 0; i--) {
+            const d = new Date(now);
+            d.setDate(d.getDate() - i);
+            result.push((d.getMonth() + 1) + '/' + d.getDate());
+          }
+        } else if (mode === 'month') {
+          for (let i = 9; i >= 0; i--) {
+            const d = new Date(now);
+            d.setMonth(d.getMonth() - i);
+            result.push(d.getFullYear() + '/' + (d.getMonth() + 1));
+          }
+        } else if (mode === 'year') {
+          for (let i = 9; i >= 0; i--) {
+            result.push((now.getFullYear() - i) + '年');
+          }
+        }
+
+        return result;
+      };
+
+      // Common chart configuration for 3-line score charts
+      const createScoreChartOption = (timeMode, baseData, challenge2Data, challenge1Data) => ({
+          tooltip: {
+              trigger: 'axis',
+              formatter: function(params) {
+                  let result = params[0].axisValue + '<br/>';
+                  params.forEach(item => {
+                      result += item.marker + ' ' + item.seriesName + ': ' + item.value + '分<br/>';
+                  });
+                  return result;
+              }
+          },
+          legend: {
+              top: 0,
+              right: 0,
+              textStyle: { color: '#fff', fontSize: 8 },
+              itemWidth: 8,
+              itemHeight: 8
+          },
+          grid: { top: 30, bottom: 20, left: 10, right: 10, containLabel: true },
           xAxis: {
               type: 'category',
-              data: ['新增储量', '原油产量', '天然气'],
-              axisLabel: {color:'#fff', fontSize: 9, interval: 0}
+              data: generateTimeAxis(timeMode),
+              axisLine: { lineStyle: { color: axisLineColor } },
+              axisTick: { show: false },
+              axisLabel: { color: labelColor, fontSize: 8, rotate: 30 }
           },
-          grid: { top: 35, bottom: 5, left: 5, right: 5, containLabel: true },
+          yAxis: {
+              type: 'value',
+              min: 80,
+              max: 115,
+              interval: 10,
+              splitLine: { lineStyle: { color: splitLineColor, type: 'dashed' } },
+              axisLabel: {
+                  color: labelColor,
+                  fontSize: 9,
+                  formatter: '{value}分'
+              }
+          },
           series: [
-              // --- Series 1: Basic (Yellow) ---
               {
                   name: '基本目标',
-                  type: 'bar',
-                  barWidth: 10,
-                  data: [68, 55, 88],
-                  itemStyle: { color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{offset: 0, color: '#ffc107'}, {offset: 1, color: '#ff9800'}]) }
-              },
-              {
-                  name: '基本目标',
-                  type: 'pictorialBar',
+                  type: 'line',
+                  smooth: true,
+                  data: baseData,
                   symbol: 'circle',
-                  symbolPosition: 'end',
-                  symbolSize: [10, 5],
-                  symbolOffset: ['-110%', -3], // Align with left bar
-                  z: 10,
-                  data: [68, 55, 88],
-                  itemStyle: { color: '#ffc107' },
-                  tooltip: { show: false }
-              },
-
-              // --- Series 2: Challenge II (Red) ---
-              {
-                  name: '挑战二档',
-                  type: 'bar',
-                  barWidth: 10,
-                  data: [78, 66, 99],
-                  itemStyle: { color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{offset: 0, color: '#ff5252'}, {offset: 1, color: '#d32f2f'}]) }
+                  symbolSize: 4,
+                  itemStyle: { color: '#ffc107', borderColor: '#fff', borderWidth: 1 },
+                  lineStyle: { width: 2, color: '#ffc107' }
               },
               {
                   name: '挑战二档',
-                  type: 'pictorialBar',
+                  type: 'line',
+                  smooth: true,
+                  data: challenge2Data,
                   symbol: 'circle',
-                  symbolPosition: 'end',
-                  symbolSize: [10, 5],
-                  symbolOffset: [0, -3], // Align with center bar
-                  z: 10,
-                  data: [78, 66, 99],
-                  itemStyle: { color: '#ff5252' },
-                  tooltip: { show: false }
-              },
-
-              // --- Series 3: Challenge I (Green) ---
-              {
-                  name: '挑战一档',
-                  type: 'bar',
-                  barWidth: 10,
-                  data: [112, 76, 114.8],
-                  itemStyle: { color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{offset: 0, color: '#69f0ae'}, {offset: 1, color: '#00c853'}]) }
+                  symbolSize: 4,
+                  itemStyle: { color: '#ff5252', borderColor: '#fff', borderWidth: 1 },
+                  lineStyle: { width: 2, color: '#ff5252' }
               },
               {
                   name: '挑战一档',
-                  type: 'pictorialBar',
+                  type: 'line',
+                  smooth: true,
+                  data: challenge1Data,
                   symbol: 'circle',
-                  symbolPosition: 'end',
-                  symbolSize: [10, 5],
-                  symbolOffset: ['110%', -3], // Align with right bar
-                  z: 10,
-                  data: [112, 76, 114.8],
-                  itemStyle: { color: '#69f0ae' },
-                  tooltip: { show: false },
-                  label: { show: true, position: 'top', color: '#fff', fontSize: 9, offset: [0, -2] }
+                  symbolSize: 4,
+                  itemStyle: { color: '#69f0ae', borderColor: '#fff', borderWidth: 1 },
+                  lineStyle: { width: 2, color: '#69f0ae' }
               }
           ]
       });
 
-      // C2: Cost Efficiency (Digital Block/Meter Style)
-      const c2 = echarts.init(this.$refs.chart2);
-      c2.setOption({
-          ...chartProps,
-          legend: { show: true, textStyle: {color: '#fff', fontSize: 8}, top: 0, right: 0, itemWidth: 8, itemHeight: 8 },
+      // Initialize charts
+      this.initReservesChart();
+      this.initOilChart();
+      this.initGasChart();
+    },
+
+    initReservesChart() {
+      const echarts = require('echarts');
+      const axisLineColor = 'rgba(30, 90, 142, 0.5)';
+      const splitLineColor = 'rgba(30, 90, 142, 0.2)';
+      const labelColor = '#6ea8d3';
+
+      const generateTimeAxis = (mode) => {
+        const result = [];
+        const now = new Date();
+        if (mode === 'day') {
+          for (let i = 9; i >= 0; i--) {
+            const d = new Date(now);
+            d.setDate(d.getDate() - i);
+            result.push((d.getMonth() + 1) + '/' + d.getDate());
+          }
+        } else if (mode === 'month') {
+          for (let i = 9; i >= 0; i--) {
+            const d = new Date(now);
+            d.setMonth(d.getMonth() - i);
+            result.push(d.getFullYear() + '/' + (d.getMonth() + 1));
+          }
+        } else if (mode === 'year') {
+          for (let i = 9; i >= 0; i--) {
+            result.push((now.getFullYear() - i) + '年');
+          }
+        }
+        return result;
+      };
+
+      const createScoreChartOption = (timeMode, baseData, challenge2Data, challenge1Data) => ({
+          tooltip: {
+              trigger: 'axis',
+              formatter: function(params) {
+                  let result = params[0].axisValue + '<br/>';
+                  params.forEach(item => {
+                      result += item.marker + ' ' + item.seriesName + ': ' + item.value + '分<br/>';
+                  });
+                  return result;
+              }
+          },
+          legend: {
+              top: 0,
+              right: 0,
+              textStyle: { color: '#fff', fontSize: 8 },
+              itemWidth: 8,
+              itemHeight: 8
+          },
+          grid: { top: 30, bottom: 20, left: 10, right: 10, containLabel: true },
           xAxis: {
               type: 'category',
-              data: ['利润总额', '桶油五项'],
-              axisLabel: {color:'#fff', fontSize: 10},
-              axisLine: { show: true, lineStyle: { color: 'rgba(0, 229, 255, 0.3)' } }
+              data: generateTimeAxis(timeMode),
+              axisLine: { lineStyle: { color: axisLineColor } },
+              axisTick: { show: false },
+              axisLabel: { color: labelColor, fontSize: 8, rotate: 30 }
           },
-          grid: { top: 35, bottom: 5, left: 5, right: 5, containLabel: true },
+          yAxis: {
+              type: 'value',
+              min: 80,
+              max: 115,
+              interval: 10,
+              splitLine: { lineStyle: { color: splitLineColor, type: 'dashed' } },
+              axisLabel: {
+                  color: labelColor,
+                  fontSize: 9,
+                  formatter: '{value}分'
+              }
+          },
           series: [
-              // --- Series 1: Basic (Pink Blocks) ---
               {
                   name: '基本目标',
-                  type: 'pictorialBar',
-                  symbol: 'roundRect',
-                  symbolRepeat: 'fixed',
-                  symbolMargin: 2,
-                  symbolSize: [14, 4],
-                  symbolClip: true,
-                  symbolOffset: ['-140%', 0],
-                  data: [45, 20.45],
-                  itemStyle: { color: '#ec008c' },
-                  label: { show: false }
+                  type: 'line',
+                  smooth: true,
+                  data: baseData,
+                  symbol: 'circle',
+                  symbolSize: 4,
+                  itemStyle: { color: '#ffc107', borderColor: '#fff', borderWidth: 1 },
+                  lineStyle: { width: 2, color: '#ffc107' }
               },
-              // Series 1 Background (faint track)
-              {
-                  name: '基本目标',
-                  type: 'pictorialBar',
-                  symbol: 'roundRect',
-                  symbolRepeat: 'fixed',
-                  symbolMargin: 2,
-                  symbolSize: [14, 4],
-                  symbolOffset: ['-140%', 0],
-                  data: [120, 30], // Max background
-                  itemStyle: { color: 'rgba(236, 0, 140, 0.1)' },
-                  z: -1,
-                  animation: false,
-                  tooltip: { show: false },
-                  hoverAnimation: false
-              },
-
-              // --- Series 2: Challenge II (Orange Blocks) ---
               {
                   name: '挑战二档',
-                  type: 'pictorialBar',
-                  symbol: 'roundRect',
-                  symbolRepeat: 'fixed',
-                  symbolMargin: 2,
-                  symbolSize: [14, 4],
-                  symbolClip: true,
-                  symbolOffset: [0, 0],
-                  data: [56, 19.14],
-                  itemStyle: { color: '#ff9966' },
-                  label: { show: false }
+                  type: 'line',
+                  smooth: true,
+                  data: challenge2Data,
+                  symbol: 'circle',
+                  symbolSize: 4,
+                  itemStyle: { color: '#ff5252', borderColor: '#fff', borderWidth: 1 },
+                  lineStyle: { width: 2, color: '#ff5252' }
               },
-              // Background
-              {
-                  name: '挑战二档',
-                  type: 'pictorialBar',
-                  symbol: 'roundRect',
-                  symbolRepeat: 'fixed',
-                  symbolMargin: 2,
-                  symbolSize: [14, 4],
-                  symbolOffset: [0, 0],
-                  data: [120, 30],
-                  itemStyle: { color: 'rgba(255, 153, 102, 0.1)' },
-                  z: -1,
-                  animation: false,
-                  tooltip: { show: false },
-                  hoverAnimation: false
-              },
-
-              // --- Series 3: Challenge I (Blue Blocks) ---
               {
                   name: '挑战一档',
-                  type: 'pictorialBar',
-                  symbol: 'roundRect',
-                  symbolRepeat: 'fixed',
-                  symbolMargin: 2,
-                  symbolSize: [14, 4],
-                  symbolClip: true,
-                  symbolOffset: ['140%', 0],
-                  data: [112.5, 18.5],
-                  itemStyle: { color: '#00c6fb' },
-                  label: { show: true, position: 'top', color: '#fff', fontSize: 9, offset: [0, -2] }
-              },
-              // Background
-              {
-                  name: '挑战一档',
-                  type: 'pictorialBar',
-                  symbol: 'roundRect',
-                  symbolRepeat: 'fixed',
-                  symbolMargin: 2,
-                  symbolSize: [14, 4],
-                  symbolOffset: ['140%', 0],
-                  data: [120, 30],
-                  itemStyle: { color: 'rgba(0, 198, 251, 0.1)' },
-                  z: -1,
-                  animation: false,
-                  tooltip: { show: false },
-                  hoverAnimation: false
+                  type: 'line',
+                  smooth: true,
+                  data: challenge1Data,
+                  symbol: 'circle',
+                  symbolSize: 4,
+                  itemStyle: { color: '#69f0ae', borderColor: '#fff', borderWidth: 1 },
+                  lineStyle: { width: 2, color: '#69f0ae' }
               }
           ]
       });
 
-      // C3: Emerging Industries (3 Series Mountain Peaks)
-      const c3 = echarts.init(this.$refs.chart3);
-      c3.setOption({
-          ...chartProps,
-          legend: { show: true, textStyle: {color: '#fff', fontSize: 8}, top: 0, right: 0, itemWidth: 8, itemHeight: 8 },
+      const chart = echarts.init(this.$refs.chartReserves);
+      chart.setOption(createScoreChartOption(
+          this.reservesTimeMode,
+          [88, 88.5, 89, 89.2, 89.5, 89.8, 90, 90, 90, 90],
+          [98, 98.5, 99, 99.2, 99.5, 99.8, 100, 100, 100, 100],
+          [108, 108.5, 109, 109.2, 109.5, 109.8, 110, 110, 110, 110]
+      ));
+    },
+
+    initOilChart() {
+      const echarts = require('echarts');
+      const axisLineColor = 'rgba(30, 90, 142, 0.5)';
+      const splitLineColor = 'rgba(30, 90, 142, 0.2)';
+      const labelColor = '#6ea8d3';
+
+      const generateTimeAxis = (mode) => {
+        const result = [];
+        const now = new Date();
+        if (mode === 'day') {
+          for (let i = 9; i >= 0; i--) {
+            const d = new Date(now);
+            d.setDate(d.getDate() - i);
+            result.push((d.getMonth() + 1) + '/' + d.getDate());
+          }
+        } else if (mode === 'month') {
+          for (let i = 9; i >= 0; i--) {
+            const d = new Date(now);
+            d.setMonth(d.getMonth() - i);
+            result.push(d.getFullYear() + '/' + (d.getMonth() + 1));
+          }
+        } else if (mode === 'year') {
+          for (let i = 9; i >= 0; i--) {
+            result.push((now.getFullYear() - i) + '年');
+          }
+        }
+        return result;
+      };
+
+      const createScoreChartOption = (timeMode, baseData, challenge2Data, challenge1Data) => ({
+          tooltip: {
+              trigger: 'axis',
+              formatter: function(params) {
+                  let result = params[0].axisValue + '<br/>';
+                  params.forEach(item => {
+                      result += item.marker + ' ' + item.seriesName + ': ' + item.value + '分<br/>';
+                  });
+                  return result;
+              }
+          },
+          legend: {
+              top: 0,
+              right: 0,
+              textStyle: { color: '#fff', fontSize: 8 },
+              itemWidth: 8,
+              itemHeight: 8
+          },
+          grid: { top: 30, bottom: 20, left: 10, right: 10, containLabel: true },
           xAxis: {
-              data: ['投资完成', '营业收入'],
-              axisLabel: {color:'#fff', fontSize: 10},
-              axisLine: { show: true, lineStyle: { color: 'rgba(0, 229, 255, 0.3)' } },
+              type: 'category',
+              data: generateTimeAxis(timeMode),
+              axisLine: { lineStyle: { color: axisLineColor } },
+              axisTick: { show: false },
+              axisLabel: { color: labelColor, fontSize: 8, rotate: 30 }
+          },
+          yAxis: {
+              type: 'value',
+              min: 80,
+              max: 115,
+              interval: 10,
+              splitLine: { lineStyle: { color: splitLineColor, type: 'dashed' } },
+              axisLabel: {
+                  color: labelColor,
+                  fontSize: 9,
+                  formatter: '{value}分'
+              }
+          },
+          series: [
+              {
+                  name: '基本目标',
+                  type: 'line',
+                  smooth: true,
+                  data: baseData,
+                  symbol: 'circle',
+                  symbolSize: 4,
+                  itemStyle: { color: '#ffc107', borderColor: '#fff', borderWidth: 1 },
+                  lineStyle: { width: 2, color: '#ffc107' }
+              },
+              {
+                  name: '挑战二档',
+                  type: 'line',
+                  smooth: true,
+                  data: challenge2Data,
+                  symbol: 'circle',
+                  symbolSize: 4,
+                  itemStyle: { color: '#ff5252', borderColor: '#fff', borderWidth: 1 },
+                  lineStyle: { width: 2, color: '#ff5252' }
+              },
+              {
+                  name: '挑战一档',
+                  type: 'line',
+                  smooth: true,
+                  data: challenge1Data,
+                  symbol: 'circle',
+                  symbolSize: 4,
+                  itemStyle: { color: '#69f0ae', borderColor: '#fff', borderWidth: 1 },
+                  lineStyle: { width: 2, color: '#69f0ae' }
+              }
+          ]
+      });
+
+      const chart = echarts.init(this.$refs.chartOil);
+      chart.setOption(createScoreChartOption(
+          this.oilTimeMode,
+          [87, 87.5, 88, 88.5, 89, 89.2, 89.5, 89.8, 90, 90],
+          [97, 97.5, 98, 98.5, 99, 99.2, 99.5, 99.8, 100, 100],
+          [107, 107.5, 108, 108.5, 109, 109.2, 109.5, 109.8, 110, 110]
+      ));
+    },
+
+    initGasChart() {
+      const echarts = require('echarts');
+      const axisLineColor = 'rgba(30, 90, 142, 0.5)';
+      const splitLineColor = 'rgba(30, 90, 142, 0.2)';
+      const labelColor = '#6ea8d3';
+
+      const generateTimeAxis = (mode) => {
+        const result = [];
+        const now = new Date();
+        if (mode === 'day') {
+          for (let i = 9; i >= 0; i--) {
+            const d = new Date(now);
+            d.setDate(d.getDate() - i);
+            result.push((d.getMonth() + 1) + '/' + d.getDate());
+          }
+        } else if (mode === 'month') {
+          for (let i = 9; i >= 0; i--) {
+            const d = new Date(now);
+            d.setMonth(d.getMonth() - i);
+            result.push(d.getFullYear() + '/' + (d.getMonth() + 1));
+          }
+        } else if (mode === 'year') {
+          for (let i = 9; i >= 0; i--) {
+            result.push((now.getFullYear() - i) + '年');
+          }
+        }
+        return result;
+      };
+
+      const createScoreChartOption = (timeMode, baseData, challenge2Data, challenge1Data) => ({
+          tooltip: {
+              trigger: 'axis',
+              formatter: function(params) {
+                  let result = params[0].axisValue + '<br/>';
+                  params.forEach(item => {
+                      result += item.marker + ' ' + item.seriesName + ': ' + item.value + '分<br/>';
+                  });
+                  return result;
+              }
+          },
+          legend: {
+              top: 0,
+              right: 0,
+              textStyle: { color: '#fff', fontSize: 8 },
+              itemWidth: 8,
+              itemHeight: 8
+          },
+          grid: { top: 30, bottom: 20, left: 10, right: 10, containLabel: true },
+          xAxis: {
+              type: 'category',
+              data: generateTimeAxis(timeMode),
+              axisLine: { lineStyle: { color: axisLineColor } },
+              axisTick: { show: false },
+              axisLabel: { color: labelColor, fontSize: 8, rotate: 30 }
+          },
+          yAxis: {
+              type: 'value',
+              min: 80,
+              max: 115,
+              interval: 10,
+              splitLine: { lineStyle: { color: splitLineColor, type: 'dashed' } },
+              axisLabel: {
+                  color: labelColor,
+                  fontSize: 9,
+                  formatter: '{value}分'
+              }
+          },
+          series: [
+              {
+                  name: '基本目标',
+                  type: 'line',
+                  smooth: true,
+                  data: baseData,
+                  symbol: 'circle',
+                  symbolSize: 4,
+                  itemStyle: { color: '#ffc107', borderColor: '#fff', borderWidth: 1 },
+                  lineStyle: { width: 2, color: '#ffc107' }
+              },
+              {
+                  name: '挑战二档',
+                  type: 'line',
+                  smooth: true,
+                  data: challenge2Data,
+                  symbol: 'circle',
+                  symbolSize: 4,
+                  itemStyle: { color: '#ff5252', borderColor: '#fff', borderWidth: 1 },
+                  lineStyle: { width: 2, color: '#ff5252' }
+              },
+              {
+                  name: '挑战一档',
+                  type: 'line',
+                  smooth: true,
+                  data: challenge1Data,
+                  symbol: 'circle',
+                  symbolSize: 4,
+                  itemStyle: { color: '#69f0ae', borderColor: '#fff', borderWidth: 1 },
+                  lineStyle: { width: 2, color: '#69f0ae' }
+              }
+          ]
+      });
+
+      const chart = echarts.init(this.$refs.chartGas);
+      chart.setOption(createScoreChartOption(
+          this.gasTimeMode,
+          [86, 86.5, 87, 87.5, 88, 88.5, 89, 89.5, 89.8, 90],
+          [96, 96.5, 97, 97.5, 98, 98.5, 99, 99.5, 99.8, 100],
+          [106, 106.5, 107, 107.5, 108, 108.5, 109, 109.5, 109.8, 110]
+      ));
+    },
+
+    switchReservesTime(mode) {
+      this.reservesTimeMode = mode;
+      this.initReservesChart();
+    },
+
+    switchOilTime(mode) {
+      this.oilTimeMode = mode;
+      this.initOilChart();
+    },
+
+    switchGasTime(mode) {
+      this.gasTimeMode = mode;
+      this.initGasChart();
+    },
+
+    switchProfitTime(mode) {
+      this.profitTimeMode = mode;
+      this.initProfitChart();
+    },
+
+    switchBarrelTime(mode) {
+      this.barrelTimeMode = mode;
+      this.initBarrelChart();
+    },
+
+    switchRevenueTime(mode) {
+      this.revenueTimeMode = mode;
+      this.initRevenueChart();
+    },
+
+    switchInvestTime(mode) {
+      this.investTimeMode = mode;
+      this.initInvestChart();
+    },
+
+    initInvestChart() {
+      const echarts = require('echarts');
+      const axisLineColor = 'rgba(30, 90, 142, 0.5)';
+      const splitLineColor = 'rgba(30, 90, 142, 0.2)';
+      const labelColor = '#6ea8d3';
+
+      const generateTimeAxis = (mode) => {
+        const result = [];
+        const now = new Date();
+        if (mode === 'day') {
+          for (let i = 9; i >= 0; i--) {
+            const d = new Date(now);
+            d.setDate(d.getDate() - i);
+            result.push((d.getMonth() + 1) + '/' + d.getDate());
+          }
+        } else if (mode === 'month') {
+          for (let i = 9; i >= 0; i--) {
+            const d = new Date(now);
+            d.setMonth(d.getMonth() - i);
+            result.push((d.getMonth() + 1) + '月');
+          }
+        } else if (mode === 'year') {
+          for (let i = 9; i >= 0; i--) {
+            result.push((now.getFullYear() - i) + '');
+          }
+        }
+        return result;
+      };
+
+      const timeData = generateTimeAxis(this.investTimeMode);
+
+      const chart = echarts.init(this.$refs.chart3);
+      chart.setOption({
+          tooltip: {
+              trigger: 'axis',
+              axisPointer: { type: 'shadow' },
+              formatter: function(params) {
+                  let result = params[0].axisValue + '<br/>';
+                  params.forEach(item => {
+                      result += item.marker + ' ' + item.seriesName + ': ' + item.value + '分<br/>';
+                  });
+                  return result;
+              }
+          },
+          legend: {
+              show: true,
+              textStyle: { color: '#fff', fontSize: 8 },
+              top: 0,
+              right: 0,
+              itemWidth: 10,
+              itemHeight: 10
+          },
+          grid: { top: 35, bottom: 25, left: 10, right: 10, containLabel: true },
+          xAxis: {
+              type: 'category',
+              data: timeData,
+              axisLabel: { color: '#fff', fontSize: 9, interval: 0, rotate: 30 },
+              axisLine: { lineStyle: { color: axisLineColor } },
               axisTick: { show: false }
           },
-          grid: { top: 35, bottom: 5, left: 5, right: 5, containLabel: true },
+          yAxis: {
+              type: 'value',
+              min: 80,
+              max: 115,
+              interval: 10,
+              splitLine: { lineStyle: { color: splitLineColor, type: 'dashed' } },
+              axisLabel: {
+                  color: labelColor,
+                  fontSize: 9,
+                  formatter: '{value}分'
+              }
+          },
           series: [
-              // --- Series 1: Basic (Red) ---
               {
                   name: '基本目标',
-                  type: 'pictorialBar',
-                  symbol: 'path://M0,10 L5,0 L10,10 z',
-                  itemStyle: { color: 'rgba(255, 82, 82, 0.8)' },
-                  data: [12, 35],
-                  symbolSize: ['50%', '100%'],
-                  symbolOffset: ['-60%', 0],
-                  z: 10,
-                  label: { show: true, position: 'top', fontSize: 10, fontWeight: 'bold', color: '#fff', offset: [0, -5] }
+                  type: 'bar',
+                  barWidth: 8,
+                  data: [85, 85.5, 86, 86.5, 87, 87.5, 88, 88.5, 89, 90],
+                  itemStyle: {
+                      color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                          { offset: 0, color: '#ffc107' },
+                          { offset: 1, color: '#ff9800' }
+                      ])
+                  }
               },
-
-              // --- Series 2: Challenge II (Yellow/Orange) ---
-              // Note: Image visually emphasizes 2 main peaks, but legend implies 3. Adding middle layer.
               {
                   name: '挑战二档',
-                  type: 'pictorialBar',
-                  symbol: 'path://M0,10 L5,0 L10,10 z',
-                  itemStyle: { color: 'rgba(255, 179, 0, 0.7)' },
-                  data: [18, 55], // Estimated intermediate values
-                  symbolSize: ['50%', '100%'],
-                  symbolOffset: ['0%', 0],
-                  z: 5
+                  type: 'bar',
+                  barWidth: 8,
+                  data: [95, 95.5, 96, 96.5, 97, 97.5, 98, 98.5, 99, 100],
+                  itemStyle: {
+                      color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                          { offset: 0, color: '#ff5252' },
+                          { offset: 1, color: '#d32f2f' }
+                      ])
+                  }
               },
-
-              // --- Series 3: Challenge I (Cyan) ---
               {
                   name: '挑战一档',
-                  type: 'pictorialBar',
-                  symbol: 'path://M0,10 L5,0 L10,10 z',
-                  itemStyle: { color: 'rgba(24, 255, 255, 0.8)' },
-                  data: [30, 75],
-                  symbolSize: ['60%', '100%'],
-                  symbolOffset: ['50%', 0],
-                  z: 8, // Behind Basic but overlapping
-                  label: { show: true, position: 'top', fontSize: 10, fontWeight: 'bold', color: '#18ffff', formatter: '{c}亿元', offset: [0, -5] }
+                  type: 'bar',
+                  barWidth: 8,
+                  data: [105, 105.5, 106, 106.5, 107, 107.5, 108, 108.5, 109, 110],
+                  itemStyle: {
+                      color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                          { offset: 0, color: '#69f0ae' },
+                          { offset: 1, color: '#00c853' }
+                      ])
+                  },
+                  label: {
+                      show: true,
+                      position: 'top',
+                      color: '#fff',
+                      fontSize: 8,
+                      formatter: '{c}'
+                  }
               }
           ]
       });
+    },
 
-       // C4: Radar
-      const c4 = echarts.init(this.$refs.chart4);
-      c4.setOption({
-          tooltip: {},
-          radar: {
-              indicator: [
-                  { name: 'A', max: 100 },
-                  { name: 'B', max: 100 },
-                  { name: 'C', max: 100 },
-                  { name: 'D', max: 100 },
-                  { name: 'E', max: 100 }
-              ],
-              splitArea: { areaStyle: { color: ['rgba(0,229,255,0.1)', 'rgba(0,0,0,0)'] } },
-              axisLine: { lineStyle: { color: 'rgba(0,229,255,0.3)' } },
-              splitLine: { lineStyle: { color: 'rgba(0,229,255,0.3)' } },
-              name: { textStyle: { color: '#fff', fontSize: 9 } },
-              center: ['50%', '55%'],
-              radius: '65%'
+    initRevenueChart() {
+      const echarts = require('echarts');
+      const axisLineColor = 'rgba(30, 90, 142, 0.5)';
+      const splitLineColor = 'rgba(30, 90, 142, 0.2)';
+      const labelColor = '#6ea8d3';
+
+      const generateTimeAxis = (mode) => {
+        const result = [];
+        const now = new Date();
+        if (mode === 'day') {
+          for (let i = 9; i >= 0; i--) {
+            const d = new Date(now);
+            d.setDate(d.getDate() - i);
+            result.push((d.getMonth() + 1) + '/' + d.getDate());
+          }
+        } else if (mode === 'month') {
+          for (let i = 9; i >= 0; i--) {
+            const d = new Date(now);
+            d.setMonth(d.getMonth() - i);
+            result.push((d.getMonth() + 1) + '月');
+          }
+        } else if (mode === 'year') {
+          for (let i = 9; i >= 0; i--) {
+            result.push((now.getFullYear() - i) + '');
+          }
+        }
+        return result;
+      };
+
+      const timeData = generateTimeAxis(this.revenueTimeMode);
+
+      const chart = echarts.init(this.$refs.chart4);
+      chart.setOption({
+          tooltip: {
+              trigger: 'axis',
+              axisPointer: { type: 'shadow' },
+              formatter: function(params) {
+                  let result = params[0].axisValue + '<br/>';
+                  params.forEach(item => {
+                      result += item.marker + ' ' + item.seriesName + ': ' + item.value + '分<br/>';
+                  });
+                  return result;
+              }
           },
-          series: [{
-              type: 'radar',
-              data: [
-                  { value: [80, 90, 70, 80, 60], name: 'Data A' },
-                  { value: [60, 50, 40, 70, 80], name: 'Data B' }
-              ],
-              areaStyle: { opacity: 0.3 }
-          }]
-      });
-
-      // Gauge
-      const g1 = echarts.init(this.$refs.gaugeChart);
-      g1.setOption({
-          series: [{
-              type: 'gauge',
-              radius: '90%',
-              center: ['50%', '60%'],
-              startAngle: 180, endAngle: 0,
-              min: 0, max: 100,
-              splitNumber: 5,
-              axisLine: { lineStyle: { width: 10, color: [[1, getLinearGradient('#00d4ff', '#0066cc')]] } },
-              pointer: { show: false },
-              axisTick: { show: false },
-              splitLine: { show: false },
-              axisLabel: { show: false },
-              detail: {
-                  valueAnimation: true,
-                  offsetCenter: [0, -10],
-                  fontSize: 24,
-                  fontWeight: 'bolder',
-                  formatter: '{value}%',
-                  color: '#fff',
-                  textShadowBlur: 10,
-                  textShadowColor: '#00d4ff'
+          legend: {
+              show: true,
+              textStyle: { color: '#fff', fontSize: 8 },
+              top: 0,
+              right: 0,
+              itemWidth: 10,
+              itemHeight: 10
+          },
+          grid: { top: 35, bottom: 25, left: 10, right: 10, containLabel: true },
+          xAxis: {
+              type: 'category',
+              data: timeData,
+              axisLabel: { color: '#fff', fontSize: 9, interval: 0, rotate: 30 },
+              axisLine: { lineStyle: { color: axisLineColor } },
+              axisTick: { show: false }
+          },
+          yAxis: {
+              type: 'value',
+              min: 80,
+              max: 115,
+              interval: 10,
+              splitLine: { lineStyle: { color: splitLineColor, type: 'dashed' } },
+              axisLabel: {
+                  color: labelColor,
+                  fontSize: 9,
+                  formatter: '{value}分'
+              }
+          },
+          series: [
+              {
+                  name: '基本目标',
+                  type: 'bar',
+                  barWidth: 8,
+                  data: [86, 86.5, 87, 87.5, 88, 88.5, 89, 89.5, 89.8, 90],
+                  itemStyle: {
+                      color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                          { offset: 0, color: '#ffc107' },
+                          { offset: 1, color: '#ff9800' }
+                      ])
+                  }
               },
-              data: [{ value: 98.5 }]
-          }]
+              {
+                  name: '挑战二档',
+                  type: 'bar',
+                  barWidth: 8,
+                  data: [96, 96.5, 97, 97.5, 98, 98.5, 99, 99.5, 99.8, 100],
+                  itemStyle: {
+                      color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                          { offset: 0, color: '#ff5252' },
+                          { offset: 1, color: '#d32f2f' }
+                      ])
+                  }
+              },
+              {
+                  name: '挑战一档',
+                  type: 'bar',
+                  barWidth: 8,
+                  data: [106, 106.5, 107, 107.5, 108, 108.5, 109, 109.5, 109.8, 110],
+                  itemStyle: {
+                      color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                          { offset: 0, color: '#69f0ae' },
+                          { offset: 1, color: '#00c853' }
+                      ])
+                  },
+                  label: {
+                      show: true,
+                      position: 'top',
+                      color: '#fff',
+                      fontSize: 8,
+                      formatter: '{c}'
+                  }
+              }
+          ]
+      });
+    },
+
+    initBarrelChart() {
+      const echarts = require('echarts');
+      const axisLineColor = 'rgba(30, 90, 142, 0.5)';
+      const splitLineColor = 'rgba(30, 90, 142, 0.2)';
+      const labelColor = '#6ea8d3';
+
+      const generateTimeAxis = (mode) => {
+        const result = [];
+        const now = new Date();
+        if (mode === 'day') {
+          for (let i = 9; i >= 0; i--) {
+            const d = new Date(now);
+            d.setDate(d.getDate() - i);
+            result.push((d.getMonth() + 1) + '/' + d.getDate());
+          }
+        } else if (mode === 'month') {
+          for (let i = 9; i >= 0; i--) {
+            const d = new Date(now);
+            d.setMonth(d.getMonth() - i);
+            result.push((d.getMonth() + 1) + '月');
+          }
+        } else if (mode === 'year') {
+          for (let i = 9; i >= 0; i--) {
+            result.push((now.getFullYear() - i) + '');
+          }
+        }
+        return result;
+      };
+
+      const timeData = generateTimeAxis(this.barrelTimeMode);
+
+      const chart = echarts.init(this.$refs.chart2);
+      chart.setOption({
+          tooltip: {
+              trigger: 'axis',
+              axisPointer: { type: 'shadow' },
+              formatter: function(params) {
+                  let result = params[0].axisValue + '<br/>';
+                  params.forEach(item => {
+                      result += item.marker + ' ' + item.seriesName + ': ' + item.value + '分<br/>';
+                  });
+                  return result;
+              }
+          },
+          legend: {
+              show: true,
+              textStyle: { color: '#fff', fontSize: 8 },
+              top: 0,
+              right: 0,
+              itemWidth: 10,
+              itemHeight: 10
+          },
+          grid: { top: 35, bottom: 25, left: 10, right: 10, containLabel: true },
+          xAxis: {
+              type: 'category',
+              data: timeData,
+              axisLabel: { color: '#fff', fontSize: 9, interval: 0, rotate: 30 },
+              axisLine: { lineStyle: { color: axisLineColor } },
+              axisTick: { show: false }
+          },
+          yAxis: {
+              type: 'value',
+              min: 80,
+              max: 115,
+              interval: 10,
+              splitLine: { lineStyle: { color: splitLineColor, type: 'dashed' } },
+              axisLabel: {
+                  color: labelColor,
+                  fontSize: 9,
+                  formatter: '{value}分'
+              }
+          },
+          series: [
+              {
+                  name: '基本目标',
+                  type: 'bar',
+                  barWidth: 8,
+                  data: [87, 87.5, 88, 88.5, 89, 89.2, 89.5, 89.8, 90, 90],
+                  itemStyle: {
+                      color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                          { offset: 0, color: '#ffc107' },
+                          { offset: 1, color: '#ff9800' }
+                      ])
+                  }
+              },
+              {
+                  name: '挑战二档',
+                  type: 'bar',
+                  barWidth: 8,
+                  data: [97, 97.5, 98, 98.5, 99, 99.2, 99.5, 99.8, 100, 100],
+                  itemStyle: {
+                      color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                          { offset: 0, color: '#ff5252' },
+                          { offset: 1, color: '#d32f2f' }
+                      ])
+                  }
+              },
+              {
+                  name: '挑战一档',
+                  type: 'bar',
+                  barWidth: 8,
+                  data: [107, 107.5, 108, 108.5, 109, 109.2, 109.5, 109.8, 110, 110],
+                  itemStyle: {
+                      color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                          { offset: 0, color: '#69f0ae' },
+                          { offset: 1, color: '#00c853' }
+                      ])
+                  },
+                  label: {
+                      show: true,
+                      position: 'top',
+                      color: '#fff',
+                      fontSize: 8,
+                      formatter: '{c}'
+                  }
+              }
+          ]
+      });
+    },
+
+    initProfitChart() {
+      const echarts = require('echarts');
+      const axisLineColor = 'rgba(30, 90, 142, 0.5)';
+      const splitLineColor = 'rgba(30, 90, 142, 0.2)';
+      const labelColor = '#6ea8d3';
+
+      const generateTimeAxis = (mode) => {
+        const result = [];
+        const now = new Date();
+        if (mode === 'day') {
+          for (let i = 9; i >= 0; i--) {
+            const d = new Date(now);
+            d.setDate(d.getDate() - i);
+            result.push((d.getMonth() + 1) + '/' + d.getDate());
+          }
+        } else if (mode === 'month') {
+          for (let i = 9; i >= 0; i--) {
+            const d = new Date(now);
+            d.setMonth(d.getMonth() - i);
+            result.push((d.getMonth() + 1) + '月');
+          }
+        } else if (mode === 'year') {
+          for (let i = 9; i >= 0; i--) {
+            result.push((now.getFullYear() - i) + '');
+          }
+        }
+        return result;
+      };
+
+      const timeData = generateTimeAxis(this.profitTimeMode);
+
+      const chart = echarts.init(this.$refs.chart1);
+      chart.setOption({
+          tooltip: {
+              trigger: 'axis',
+              axisPointer: { type: 'shadow' },
+              formatter: function(params) {
+                  let result = params[0].axisValue + '<br/>';
+                  params.forEach(item => {
+                      result += item.marker + ' ' + item.seriesName + ': ' + item.value + '分<br/>';
+                  });
+                  return result;
+              }
+          },
+          legend: {
+              show: true,
+              textStyle: { color: '#fff', fontSize: 8 },
+              top: 0,
+              right: 0,
+              itemWidth: 10,
+              itemHeight: 10
+          },
+          grid: { top: 35, bottom: 25, left: 10, right: 10, containLabel: true },
+          xAxis: {
+              type: 'category',
+              data: timeData,
+              axisLabel: { color: '#fff', fontSize: 9, interval: 0, rotate: 30 },
+              axisLine: { lineStyle: { color: axisLineColor } },
+              axisTick: { show: false }
+          },
+          yAxis: {
+              type: 'value',
+              min: 80,
+              max: 115,
+              interval: 10,
+              splitLine: { lineStyle: { color: splitLineColor, type: 'dashed' } },
+              axisLabel: {
+                  color: labelColor,
+                  fontSize: 9,
+                  formatter: '{value}分'
+              }
+          },
+          series: [
+              {
+                  name: '基本目标',
+                  type: 'bar',
+                  barWidth: 8,
+                  data: [88, 88.5, 89, 89.2, 89.5, 89.8, 90, 90, 90, 90],
+                  itemStyle: {
+                      color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                          { offset: 0, color: '#ffc107' },
+                          { offset: 1, color: '#ff9800' }
+                      ])
+                  }
+              },
+              {
+                  name: '挑战二档',
+                  type: 'bar',
+                  barWidth: 8,
+                  data: [98, 98.5, 99, 99.2, 99.5, 99.8, 100, 100, 100, 100],
+                  itemStyle: {
+                      color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                          { offset: 0, color: '#ff5252' },
+                          { offset: 1, color: '#d32f2f' }
+                      ])
+                  }
+              },
+              {
+                  name: '挑战一档',
+                  type: 'bar',
+                  barWidth: 8,
+                  data: [108, 108.5, 109, 109.2, 109.5, 109.8, 110, 110, 110, 110],
+                  itemStyle: {
+                      color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                          { offset: 0, color: '#69f0ae' },
+                          { offset: 1, color: '#00c853' }
+                      ])
+                  },
+                  label: {
+                      show: true,
+                      position: 'top',
+                      color: '#fff',
+                      fontSize: 8,
+                      formatter: '{c}'
+                  }
+              }
+          ]
       });
     }
   }
@@ -1145,6 +1817,43 @@ export default {
 /* Right Sidebar */
 .right-sidebar { width: 25%; display: flex; flex-direction: column; gap: 10px; }
 .extra-box { flex: 1; display: flex; flex-direction: column; }
+
+.right-chart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(30, 90, 142, 0.5);
+    padding-bottom: 6px;
+    margin-bottom: 10px;
+}
+
+.right-tabs {
+    display: flex;
+    gap: 3px;
+}
+
+.r-tab {
+    font-size: 10px;
+    padding: 2px 8px;
+    background: rgba(30, 90, 142, 0.2);
+    border: 1px solid rgba(30, 90, 142, 0.4);
+    color: #6ea8d3;
+    cursor: pointer;
+    border-radius: 2px;
+    transition: all 0.3s;
+}
+
+.r-tab:hover {
+    border-color: #00d4ff;
+    color: #00d4ff;
+}
+
+.r-tab.active {
+    background: rgba(0, 212, 255, 0.25);
+    border-color: #00d4ff;
+    color: #00d4ff;
+    box-shadow: 0 0 6px rgba(0, 212, 255, 0.4);
+}
 
 .news-scroll { flex: 1; overflow-y: auto; padding: 5px; }
 .news-row {
