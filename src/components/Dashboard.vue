@@ -229,7 +229,7 @@ export default {
         { title: '今日提醒', badge: 'W', items: ['9:30 勘探会议', '14:00 表彰大会'] },
         { title: '下周事项', badge: 'S', items: ['周一安全培训', '周三项目评审'] },
         { title: '待审批', badge: 'W', items: ['立项审批', '采购审批'] },
-        { title: '差旅计划', badge: 'W', items: ['16:00 航班飞北京'] },
+        { title: '日程管理', badge: 'W', items: ['16:00 航班飞北京'] },
         { title: '党务活动', badge: 'M', items: ['本月党小组会议'] },
       ]
     }
