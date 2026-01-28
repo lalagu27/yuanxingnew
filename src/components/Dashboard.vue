@@ -158,7 +158,7 @@
                         >月</span
                       >
                       <span
-                        class="c-tab active"
+                        class="c-tab"
                         :class="{ active: profitTimeMode === 'day' }"
                         @click="switchProfitTime('day')"
                         >日</span
@@ -184,7 +184,7 @@
                         >月</span
                       >
                       <span
-                        class="c-tab active"
+                        class="c-tab"
                         :class="{ active: barrelTimeMode === 'day' }"
                         @click="switchBarrelTime('day')"
                         >日</span
@@ -210,7 +210,7 @@
                         >月</span
                       >
                       <span
-                        class="c-tab active"
+                        class="c-tab"
                         :class="{ active: investTimeMode === 'day' }"
                         @click="switchInvestTime('day')"
                         >日</span
@@ -236,7 +236,7 @@
                         >月</span
                       >
                       <span
-                        class="c-tab active"
+                        class="c-tab"
                         :class="{ active: revenueTimeMode === 'day' }"
                         @click="switchRevenueTime('day')"
                         >日</span
@@ -270,7 +270,7 @@
                     >月</span
                   >
                   <span
-                    class="r-tab active"
+                    class="r-tab"
                     :class="{ active: reservesTimeMode === 'day' }"
                     @click="switchReservesTime('day')"
                     >日</span
@@ -298,7 +298,7 @@
                     >月</span
                   >
                   <span
-                    class="r-tab active"
+                    class="r-tab"
                     :class="{ active: oilTimeMode === 'day' }"
                     @click="switchOilTime('day')"
                     >日</span
@@ -326,7 +326,7 @@
                     >月</span
                   >
                   <span
-                    class="r-tab active"
+                    class="r-tab"
                     :class="{ active: gasTimeMode === 'day' }"
                     @click="switchGasTime('day')"
                     >日</span
