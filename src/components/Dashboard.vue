@@ -119,9 +119,24 @@
               <div class="filter-row">
                 <div class="section-label">核心指标考核 DASHBOARD</div>
                 <div class="time-tabs">
-                  <span class="tab active">YEAR</span>
-                  <span class="tab">QTR</span>
-                  <span class="tab">MON</span>
+                  <span
+                    class="tab"
+                    :class="{ active: globalTimeMode === 'year' }"
+                    @click="switchGlobalTime('year')"
+                    >年</span
+                  >
+                  <span
+                    class="tab"
+                    :class="{ active: globalTimeMode === 'month' }"
+                    @click="switchGlobalTime('month')"
+                    >月</span
+                  >
+                  <span
+                    class="tab"
+                    :class="{ active: globalTimeMode === 'day' }"
+                    @click="switchGlobalTime('day')"
+                    >日</span
+                  >
                 </div>
               </div>
 
@@ -342,6 +357,7 @@ export default {
   data() {
     return {
       currentTime: "",
+      globalTimeMode: "day",
       reservesTimeMode: "day",
       oilTimeMode: "day",
       gasTimeMode: "day",
@@ -414,6 +430,55 @@ export default {
           }
         }
       });
+    },
+    // 全局时间切换方法
+    switchGlobalTime(mode) {
+      this.globalTimeMode = mode;
+      // 同步所有图表的时间模式
+      this.profitTimeMode = mode;
+      this.barrelTimeMode = mode;
+      this.investTimeMode = mode;
+      this.revenueTimeMode = mode;
+      this.reservesTimeMode = mode;
+      this.oilTimeMode = mode;
+      this.gasTimeMode = mode;
+      // 重新初始化所有图表
+      this.initProfitChart();
+      this.initBarrelChart();
+      this.initInvestChart();
+      this.initRevenueChart();
+      this.initReservesChart();
+      this.initOilChart();
+      this.initGasChart();
+    },
+    // 各个图表的独立切换方法
+    switchProfitTime(mode) {
+      this.profitTimeMode = mode;
+      this.initProfitChart();
+    },
+    switchBarrelTime(mode) {
+      this.barrelTimeMode = mode;
+      this.initBarrelChart();
+    },
+    switchInvestTime(mode) {
+      this.investTimeMode = mode;
+      this.initInvestChart();
+    },
+    switchRevenueTime(mode) {
+      this.revenueTimeMode = mode;
+      this.initRevenueChart();
+    },
+    switchReservesTime(mode) {
+      this.reservesTimeMode = mode;
+      this.initReservesChart();
+    },
+    switchOilTime(mode) {
+      this.oilTimeMode = mode;
+      this.initOilChart();
+    },
+    switchGasTime(mode) {
+      this.gasTimeMode = mode;
+      this.initGasChart();
     },
     initCharts() {
       // Common config - BMS Style
